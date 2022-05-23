@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<computerForRepair computerForRepairID="1">
+	<computer computerID="1">
+		<computerModel>Macboook Pro</computerModel>
+		<computerYear>2019</computerYear>
+		<oS>
+			<operatingSystemID>5</operatingSystemID>
+			<version>12.0 Monterey</version>
+		</oS>
+		<computerProcessor>
+			<procesorID>3</procesorID>
+		</computerProcessor>
+		<computerDataStorageDevice>
+			<dataStorageTypeID>2</dataStorageTypeID>
+		</computerDataStorageDevice>
+		<computerDataStorageDeviceCapacity>1T</computerDataStorageDeviceCapacity>
+	</computer>
+	<user userID="1">
+		<userName>Julia Roberts</userName>
+		<age>25</age>
+		<userEMail>juliaroberts@gmail.com</userEMail>
+		<userPhoneNumber>
+			<phoneNumberID>2</phoneNumberID>
+			<countryCode>2</countryCode>
+			<phoneNumber>23456783222</phoneNumber>
+		</userPhoneNumber>
+		<userAdress>
+			<adressID>3</adressID>
+			<streetNumber>42</streetNumber>
+			<streetName>wallaby st</streetName>
+			<city>sidney</city>
+		</userAdress>
+		<userGender>female</userGender>
+	</user>
+	<computerRepairers>
+		<computerRepairer>
+			<id>1</id>
+			<employeeID>1001</employeeID>
+			<user userID="2">
+				<userName>Jack Nicholson</userName>
+				<age>60</age>
+				<userEMail>jacknicholson@gmail.com</userEMail>
+				<userPhoneNumber>
+					<phoneNumberID>1</phoneNumberID>
+					<countryCode>2</countryCode>
+					<phoneNumber>7766432255</phoneNumber>
+				</userPhoneNumber>
+				<userAdress>
+					<adressID>1</adressID>
+					<streetNumber>1367</streetNumber>
+					<streetName>lincoln st</streetName>
+					<city>sidney</city>
+				</userAdress>
+				<userGender>male</userGender>
+			</user>
+		</computerRepairer>
+		<computerRepairer>
+			<id>2</id>
+			<employeeID>1017</employeeID>
+			<user userID="7">
+				<userName>John Cusack</userName>
+				<age>30</age>
+				<userEMail>johncusack@gmail.com</userEMail>
+				<userPhoneNumber>
+					<phoneNumberID>3</phoneNumberID>
+					<countryCode>2</countryCode>
+					<phoneNumber>774432755</phoneNumber>
+				</userPhoneNumber>
+				<userAdress>
+					<adressID>4</adressID>
+					<streetNumber>277</streetNumber>
+					<streetName>center st</streetName>
+					<city>sidney</city>
+				</userAdress>
+				<userGender>male</userGender>
+			</user>
+		</computerRepairer>
+	</computerRepairers>
+</computerForRepair>

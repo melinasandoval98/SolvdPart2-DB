@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+   <user userID="1">
+      <userName>Julia Roberts</userName>
+      <age>25</age>
+      <userEMail>juliaroberts@gmail.com</userEMail>
+      <userPhoneNumber>
+         <phoneNumberID>2</phoneNumberID>
+         <countryCode>2</countryCode>
+         <phoneNumber>23456783222</phoneNumber>
+      </userPhoneNumber>
+      <userAdress>
+         <adressID>3</adressID>
+         <streetNumber>42</streetNumber>
+         <streetName>wallaby st</streetName>
+         <city>sidney</city>
+      </userAdress>
+   </user>
+   <user userID="2">
+      <userName>Jack Nicholson</userName>
+      <age>60</age>
+      <userEMail>jacknicholson@gmail.com</userEMail>
+      <userPhoneNumber>
+         <phoneNumberID>1</phoneNumberID>
+         <countryCode>2</countryCode>
+         <phoneNumber>7766432255</phoneNumber>
+      </userPhoneNumber>
+      <userAdress>
+         <adressID>1</adressID>
+         <streetNumber>1367</streetNumber>
+         <streetName>lincoln st</streetName>
+         <city>sidney</city>
+      </userAdress>
+   </user>
+</users>

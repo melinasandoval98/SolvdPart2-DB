@@ -1,4 +1,5 @@
-----------------------------Computer repair service hierarchy------------------------------
+------------------------------------------------------Computer repair service tables hierarchy------------------------------------------------------
+
 +++Users table: 
 Columns: id; name; email; age; employee_id; user_Phone_Number
 -This table contains all the costumers(who owns at least one device -> 1-m relationship), who have a unique phone number (1-m relationship) and employees, who have a unique employee ID (1-1 relationship), can repair many computers (1-m relationship), have a unique phone number (1-m relationship), and can have more than one assigned work shift.

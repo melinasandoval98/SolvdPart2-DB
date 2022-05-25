@@ -1,4 +1,4 @@
--------------------------------------------Computer repair service tables hierarchy-------------------------------------------
+------------------------------------Computer repair service tables hierarchy------------------------------------
 
 +++Users table: 
 Columns: id; name; email; age; employee_id; user_Phone_Number

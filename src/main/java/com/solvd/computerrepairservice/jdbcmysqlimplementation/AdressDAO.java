@@ -160,4 +160,10 @@ public class AdressDAO implements IAdressDAO {
 		return adresses;
 	}
 
+	@Override
+	public Adress getAdressByUserID(long userID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -149,4 +149,10 @@ public class GenderDAO implements IGenderDAO {
 		return genders;
 	}
 
+	@Override
+	public Genders getGenderByUserID(long userID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

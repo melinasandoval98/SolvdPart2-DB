@@ -15,23 +15,24 @@ import com.solvd.computerrepairservice.model.User;
 
 public class UserDAO implements IUserDAO {
 	public static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Users WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Users (name, email, age, user_phone_number, adress_id, gender_id) VALUES (?,?,?,?,?,?)";
+	private final String UPDATE_QUERY = "UPDATE Users SET name = 7, email = ?, age=?, user_phone_number=?, adress_id=?, gender_id=?";
+	private final String REMOVE_QUERY = "DELETE FROM Users WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Users";
 	private Connection connection;
 	private PhoneNumberDAO userPhoneNumberDAO;
 	private AdressDAO userAdressDAO;
 	private GenderDAO userGenderDAO;
+	private ComputerForRepairDAO computerForRepairDAO;
 
-	public UserDAO(Connection connection, PhoneNumberDAO userPhoneNumber, AdressDAO userAdressDAO,
-			GenderDAO userGender) {
+	public UserDAO() {
+
+	}
+
+	public UserDAO(Connection connection) {
 		super();
 		this.connection = connection;
-		this.userPhoneNumberDAO = userPhoneNumber;
-		this.userAdressDAO = userAdressDAO;
-		this.userGenderDAO = userGender;
 	}
 
 	private User createUser(ResultSet rs) {
@@ -39,8 +40,10 @@ public class UserDAO implements IUserDAO {
 		try {
 			long userID = rs.getLong("id");
 			user = new User(userID, rs.getString("name"), rs.getInt("age"), rs.getString("email"),
-					userPhoneNumberDAO.getEntityByID(userID), userAdressDAO.getEntityByID(userID),
-					userGenderDAO.getEntityByID(userID));
+					userPhoneNumberDAO.getEntityByID(rs.getLong("user_phone_number_id")),
+					userAdressDAO.getEntityByID(rs.getLong("adress_id")),
+					userGenderDAO.getEntityByID(rs.getLong("gender_id")),
+					computerForRepairDAO.getComputerForRepairByUserID(userID));
 		} catch (SQLException e) {
 			LOGGER.error("SQLEception catched", e);
 		}
@@ -85,14 +88,12 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public void insertEntity(User entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			long nextPhoneNumberID = getAll().size() + 1;
-			prepStat.setLong(1, nextPhoneNumberID);
-			prepStat.setString(2, entity.getUserName());
-			prepStat.setString(3, entity.getUserEMail());
-			prepStat.setInt(4, entity.getUserAge());
-			prepStat.setLong(5, userPhoneNumberDAO.getEntityByID(nextPhoneNumberID).getPhoneNumberID());
-			prepStat.setLong(6, userAdressDAO.getEntityByID(nextPhoneNumberID).getAdressID());
-			prepStat.setLong(7, userGenderDAO.getEntityByID(nextPhoneNumberID).getGenderID());
+			prepStat.setString(1, entity.getUserName());
+			prepStat.setString(2, entity.getUserEMail());
+			prepStat.setInt(3, entity.getUserAge());
+			prepStat.setLong(4, entity.getUserPhoneNumber().getPhoneNumberID());
+			prepStat.setLong(5, entity.getUserAdress().getAdressID());
+			prepStat.setLong(6, entity.getUserGender().getGenderID());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -104,13 +105,12 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public void updateEntity(User entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getUserID());
-			prepStat.setString(2, entity.getUserName());
-			prepStat.setString(3, entity.getUserEMail());
-			prepStat.setInt(4, entity.getUserAge());
-			prepStat.setLong(5, userPhoneNumberDAO.getEntityByID(entity.getUserID()).getPhoneNumberID());
-			prepStat.setLong(6, userAdressDAO.getEntityByID(entity.getUserID()).getAdressID());
-			prepStat.setLong(7, userGenderDAO.getEntityByID(entity.getUserID()).getGenderID());
+			prepStat.setString(1, entity.getUserName());
+			prepStat.setString(2, entity.getUserEMail());
+			prepStat.setInt(3, entity.getUserAge());
+			prepStat.setLong(4, entity.getUserPhoneNumber().getPhoneNumberID());
+			prepStat.setLong(5, entity.getUserAdress().getAdressID());
+			prepStat.setLong(6, entity.getUserGender().getGenderID());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Address data of id = " + entity.getUserID() + " has been updated successfully");
 			} else {

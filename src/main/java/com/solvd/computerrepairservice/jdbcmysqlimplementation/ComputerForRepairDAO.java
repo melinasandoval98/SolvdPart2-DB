@@ -1,4 +1,4 @@
-package com.solvd.computerrepairservice.model;
+package com.solvd.computerrepairservice.jdbcmysqlimplementation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.solvd.computerrepairservice.dao.IComputerForRepairDAO;
-import com.solvd.computerrepairservice.jdbcmysqlimplementation.ComputerDAO;
-import com.solvd.computerrepairservice.jdbcmysqlimplementation.EmployeeIDDAO;
-import com.solvd.computerrepairservice.jdbcmysqlimplementation.UserDAO;
+import com.solvd.computerrepairservice.model.ComputerForRepair;
 
 public class ComputerForRepairDAO implements IComputerForRepairDAO {
 	public static final Logger LOGGER = LogManager.getLogger(ComputerForRepairDAO.class);
@@ -173,4 +171,18 @@ public class ComputerForRepairDAO implements IComputerForRepairDAO {
 		}
 		return computersForRepair;
 	}
+
+	@Override
+	public List<ComputerForRepair> getComputerForRepairByUserID(long userID) {
+		List<ComputerForRepair> computersForRepair = new ArrayList<>();
+
+		try {
+			computersForRepair = getAll().stream()
+					.filter(computerForRepair -> computerForRepair.getclientID() == userID).toList();
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		}
+		return computersForRepair;
+	}
+
 }

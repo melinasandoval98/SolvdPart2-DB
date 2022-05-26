@@ -1,11 +1,14 @@
 package com.solvd.computerrepairservice.model;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
-@XmlRootElement(name = "user")
-@XmlType(propOrder = { "userID", "userName", "userAge", "userEMail", "userPhoneNumber", "userAdress", "userGender" })
+//import javax.xml.bind.annotation.XmlAttribute;
+//import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.bind.annotation.XmlType;
+//
+//@XmlRootElement(name = "user")
+//@XmlType(propOrder = { "userID", "userName", "userAge", "userEMail", "userPhoneNumber", "userAdress", "userGender" })
 public class User {
 	private long userID;
 	private String userName;
@@ -14,13 +17,14 @@ public class User {
 	private PhoneNumber userPhoneNumber;
 	private Adress userAdress;
 	private Genders userGender;
+	private List<ComputerForRepair> userComputersForRepair = new ArrayList<>();
 
 	public User() {
 
 	}
 
 	public User(long userID, String userName, Integer userAge, String userEMail, PhoneNumber userPhoneNumber,
-			Adress userAdress, Genders userGender) {
+			Adress userAdress, Genders userGender, List<ComputerForRepair> userComputers) {
 		super();
 		this.userID = userID;
 		this.userName = userName;
@@ -29,9 +33,9 @@ public class User {
 		this.userPhoneNumber = userPhoneNumber;
 		this.userAdress = userAdress;
 		this.userGender = userGender;
+		this.userComputersForRepair = userComputers;
 	}
 
-	@XmlAttribute(name = "userID")
 	public long getUserID() {
 		return userID;
 	}
@@ -88,11 +92,19 @@ public class User {
 		this.userGender = userGender;
 	}
 
+	public List<ComputerForRepair> getUserComputers() {
+		return userComputersForRepair;
+	}
+
+	public void setUserComputers(List<ComputerForRepair> userComputers) {
+		this.userComputersForRepair = userComputers;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", userName=" + userName + ", userAge=" + userAge + ", userEMail=" + userEMail
 				+ ", userPhoneNumber=" + userPhoneNumber + ", userAdress=" + userAdress + ", userGender=" + userGender
-				+ "]";
+				+ ", userComputers=" + userComputersForRepair + "]";
 	}
 
 }

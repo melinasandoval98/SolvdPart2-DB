@@ -1,7 +1,7 @@
 package com.solvd.computerrepairservice.model;
 
 public enum Genders {
-	FEMALE(1), MALE(2);
+	FEMALE(2), MALE(1);
 
 	private int genderID;
 

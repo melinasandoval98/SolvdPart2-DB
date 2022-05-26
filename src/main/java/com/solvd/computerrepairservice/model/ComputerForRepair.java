@@ -1,28 +1,28 @@
 package com.solvd.computerrepairservice.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ComputerForRepair {
 	private long computerForRepairID;
 	private Computer computer;
-	private User computerOwner;
-	private EmployeeID computerRepairer;
 	private Date entryDate;
-	private List<EmployeeID> computerRepairers = new ArrayList<>();
+	private long clientID;
+	private long repairerID;
+	private List<ComputerProblemSubType> computerSubTypesProblems = new ArrayList<>();
 
 	public ComputerForRepair() {
 
 	}
 
-	public ComputerForRepair(long computerForRepairID, Computer computerForRepair, User computerOwner,
-			EmployeeID computerRepairer) {
+	public ComputerForRepair(long computerForRepairID, Computer computer, Date entryDate,
+			List<ComputerProblemSubType> computerSubTypesProblems) {
 		super();
 		this.computerForRepairID = computerForRepairID;
-		this.computer = computerForRepair;
-		this.computerOwner = computerOwner;
-		this.computerRepairer = computerRepairer;
+		this.computer = computer;
+		this.entryDate = entryDate;
+		this.computerSubTypesProblems = computerSubTypesProblems;
 	}
 
 	public long getComputerForRepairID() {
@@ -37,24 +37,8 @@ public class ComputerForRepair {
 		return computer;
 	}
 
-	public void setComputer(Computer computerForRepair) {
-		this.computer = computerForRepair;
-	}
-
-	public User getComputerOwner() {
-		return computerOwner;
-	}
-
-	public void setComputerOwner(User computerOwner) {
-		this.computerOwner = computerOwner;
-	}
-
-	public EmployeeID getComputerRepairer() {
-		return computerRepairer;
-	}
-
-	public void setComputerRepairer(EmployeeID computerRepairer) {
-		this.computerRepairer = computerRepairer;
+	public void setComputer(Computer computer) {
+		this.computer = computer;
 	}
 
 	public Date getEntryDate() {
@@ -65,18 +49,28 @@ public class ComputerForRepair {
 		this.entryDate = entryDate;
 	}
 
-	public List<EmployeeID> getComputerRepairers() {
-		return computerRepairers;
+	public List<ComputerProblemSubType> getComputerSubTypesProblems() {
+		return computerSubTypesProblems;
 	}
 
-	public void setComputerRepairers(List<EmployeeID> computerRepairers) {
-		this.computerRepairers = computerRepairers;
+	public void setComputerSubTypesProblems(List<ComputerProblemSubType> computerSubTypesProblems) {
+		this.computerSubTypesProblems = computerSubTypesProblems;
 	}
 
-	@Override
-	public String toString() {
-		return "ComputerForRepair [computerForRepairID=" + computerForRepairID + ", computerForRepair=" + computer
-				+ ", computerOwner=" + computerOwner + ", computerRepairer=" + computerRepairer + "]";
+	public long getclientID() {
+		return clientID;
+	}
+
+	public void setClientID(long clientID) {
+		this.clientID = clientID;
+	}
+
+	public long getRepairerID() {
+		return repairerID;
+	}
+
+	public void setRepairerID(long repairerID) {
+		this.repairerID = repairerID;
 	}
 
 }

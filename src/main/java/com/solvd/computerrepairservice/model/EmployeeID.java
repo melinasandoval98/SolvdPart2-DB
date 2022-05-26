@@ -1,28 +1,21 @@
 package com.solvd.computerrepairservice.model;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-//@XmlRootElement(name = "computerRepairer")
-//@XmlType(propOrder = { "id", "employeeID", "userEmployee" })
 public class EmployeeID {
 	private long id;
 	private long employeeID;
-	private User userEmployee;
+	private long userID;
 
 	public EmployeeID() {
 
 	}
 
-	public EmployeeID(long id, long employeeID, User userEmployee) {
+	public EmployeeID(long id, long employeeID, long userID) {
 		super();
 		this.id = id;
 		this.employeeID = employeeID;
-		this.userEmployee = userEmployee;
+		this.userID = userID;
 	}
 
-//	@XmlAttribute(name = "id")
 	public long getId() {
 		return id;
 	}
@@ -39,17 +32,17 @@ public class EmployeeID {
 		this.employeeID = employeeID;
 	}
 
-	public User getUserEmployee() {
-		return userEmployee;
+	public long getUserID() {
+		return userID;
 	}
 
-	public void setUserEmployee(User userEmployee) {
-		this.userEmployee = userEmployee;
+	public void setUserID(long userID) {
+		this.userID = userID;
 	}
 
 	@Override
 	public String toString() {
-		return "EmployeeID [id=" + id + ", employeeID=" + employeeID + ", userEmployee=" + userEmployee + "]";
+		return "EmployeeID [id=" + id + ", employeeID=" + employeeID + ", userID=" + userID + "]";
 	}
 
 }

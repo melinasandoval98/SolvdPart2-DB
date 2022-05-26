@@ -157,4 +157,10 @@ public class PhoneNumberDAO implements IPhoneNumberDAO {
 		return phoneNumbers;
 	}
 
+	@Override
+	public PhoneNumber getPhoneNumberByUserID(long userID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

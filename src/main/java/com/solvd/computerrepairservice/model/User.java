@@ -3,12 +3,13 @@ package com.solvd.computerrepairservice.model;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.xml.bind.annotation.XmlAttribute;
-//import javax.xml.bind.annotation.XmlRootElement;
-//import javax.xml.bind.annotation.XmlType;
-//
-//@XmlRootElement(name = "user")
-//@XmlType(propOrder = { "userID", "userName", "userAge", "userEMail", "userPhoneNumber", "userAdress", "userGender" })
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "user")
+@XmlType(propOrder = { "userID", "userName", "userAge", "userEMail", "userPhoneNumber", "userAdress", "userGender" })
 public class User {
 	private long userID;
 	private String userName;
@@ -36,6 +37,7 @@ public class User {
 		this.userComputersForRepair = userComputers;
 	}
 
+	@XmlAttribute(name = "userID")
 	public long getUserID() {
 		return userID;
 	}
@@ -44,6 +46,7 @@ public class User {
 		this.userID = userID;
 	}
 
+	@XmlElement(name = "userName")
 	public String getUserName() {
 		return userName;
 	}
@@ -52,6 +55,7 @@ public class User {
 		this.userName = userName;
 	}
 
+	@XmlElement(name = "userAge")
 	public Integer getUserAge() {
 		return userAge;
 	}
@@ -60,6 +64,7 @@ public class User {
 		this.userAge = userAge;
 	}
 
+	@XmlElement(name = "userEMail")
 	public String getUserEMail() {
 		return userEMail;
 	}
@@ -68,6 +73,7 @@ public class User {
 		this.userEMail = userEMail;
 	}
 
+	@XmlElement(name = "userPhoneNumber")
 	public PhoneNumber getUserPhoneNumber() {
 		return userPhoneNumber;
 	}
@@ -76,6 +82,7 @@ public class User {
 		this.userPhoneNumber = userPhoneNumber;
 	}
 
+	@XmlElement(name = "userAdress")
 	public Adress getUserAdress() {
 		return userAdress;
 	}
@@ -84,6 +91,7 @@ public class User {
 		this.userAdress = userAdress;
 	}
 
+	@XmlElement(name = "userGender")
 	public Genders getUserGender() {
 		return userGender;
 	}

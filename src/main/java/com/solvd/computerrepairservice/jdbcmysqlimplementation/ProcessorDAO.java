@@ -16,11 +16,11 @@ import com.solvd.computerrepairservice.model.Processors;
 
 public class ProcessorDAO implements IProcessorDAO {
 	public static final Logger LOGGER = LogManager.getLogger(ProcessorDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Processors WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO  Processors (model) VALUES (?)";
+	private final String UPDATE_QUERY = "UPDATE Processors SET model = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Processors WHERE id = ? ";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Processors";
 	private Connection connection;
 
 	public ProcessorDAO(Connection connection) {
@@ -37,9 +37,9 @@ public class ProcessorDAO implements IProcessorDAO {
 			prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
 			prepStat.setLong(1, id);
 			resultSet = prepStat.executeQuery();
-			if (resultSet.next()
-					&& Arrays.asList(Processors.values()).contains(Processors.valueOf(resultSet.getString("model")))) {
-				processor = Processors.valueOf(resultSet.getString("model"));
+			if (resultSet.next() && Arrays.asList(Processors.values())
+					.contains(Processors.valueOf(resultSet.getString("model").toUpperCase()))) {
+				processor = Processors.valueOf(resultSet.getString("model").toUpperCase());
 			} else {
 				throw new SQLException();
 			}
@@ -67,8 +67,7 @@ public class ProcessorDAO implements IProcessorDAO {
 	@Override
 	public void insertEntity(Processors entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setString(2, entity.name());
+			prepStat.setString(1, entity.name());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -81,8 +80,7 @@ public class ProcessorDAO implements IProcessorDAO {
 	@Override
 	public void updateEntity(Processors entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getProcesorID());
-			prepStat.setString(2, entity.name());
+			prepStat.setString(1, entity.name());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Processors data of id = " + entity.getProcesorID() + " has been updated successfully");
 			} else {
@@ -118,9 +116,9 @@ public class ProcessorDAO implements IProcessorDAO {
 		try {
 			prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
 			resultSet = prepStat.executeQuery();
-			while (resultSet.next()
-					&& Arrays.asList(Processors.values()).contains(Processors.valueOf(resultSet.getString("model")))) {
-				processors.add(Processors.valueOf(resultSet.getString("model")));
+			while (resultSet.next() && Arrays.asList(Processors.values())
+					.contains(Processors.valueOf(resultSet.getString("model").toUpperCase()))) {
+				processors.add(Processors.valueOf(resultSet.getString("model").toUpperCase()));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("SQLException catched", e);

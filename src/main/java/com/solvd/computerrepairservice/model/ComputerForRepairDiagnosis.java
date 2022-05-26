@@ -1,16 +1,19 @@
 package com.solvd.computerrepairservice.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComputerForRepairDiagnosis {
 	private long computerForRepairDiagnosisID;
 	private ComputerForRepair computerForRepair;
-	private ComputerProblemSubType computerProblemSubType;
+	private List<ComputerProblemSubType> computerSubTypesProblems = new ArrayList<>();
 
 	public ComputerForRepairDiagnosis(long computerForRepairDiagnosisID, ComputerForRepair computerForRepair,
-			ComputerProblemSubType computerProblemSubType) {
+			List<ComputerProblemSubType> computerSubTypesProblems) {
 		super();
 		this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
 		this.computerForRepair = computerForRepair;
-		this.computerProblemSubType = computerProblemSubType;
+		this.computerSubTypesProblems = computerSubTypesProblems;
 	}
 
 	public long getComputerForRepairDiagnosisID() {
@@ -29,18 +32,18 @@ public class ComputerForRepairDiagnosis {
 		this.computerForRepair = computerForRepair;
 	}
 
-	public ComputerProblemSubType getComputerProblemSubType() {
-		return computerProblemSubType;
+	public List<ComputerProblemSubType> getComputerSubTypesProblems() {
+		return computerSubTypesProblems;
 	}
 
-	public void setComputerProblemSubType(ComputerProblemSubType computerProblemSubType) {
-		this.computerProblemSubType = computerProblemSubType;
+	public void setComputerSubTypesProblems(List<ComputerProblemSubType> computerSubTypesProblems) {
+		this.computerSubTypesProblems = computerSubTypesProblems;
 	}
 
 	@Override
 	public String toString() {
 		return "ComputerForRepairDiagnosis [computerForRepairDiagnosisID=" + computerForRepairDiagnosisID
-				+ ", computerForRepair=" + computerForRepair + ", computerProblemSubType=" + computerProblemSubType
+				+ ", computerForRepair=" + computerForRepair + ", computerSubTypesProblems=" + computerSubTypesProblems
 				+ "]";
 	}
 

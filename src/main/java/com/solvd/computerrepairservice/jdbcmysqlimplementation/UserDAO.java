@@ -17,14 +17,14 @@ public class UserDAO implements IUserDAO {
 	public static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
 	private final String GET_BY_ID_QUERY = "SELECT * FROM Users WHERE id = ?";
 	private final String INSERT_QUERY = "INSERT INTO Users (name, email, age, user_phone_number, adress_id, gender_id) VALUES (?,?,?,?,?,?)";
-	private final String UPDATE_QUERY = "UPDATE Users SET name = 7, email = ?, age=?, user_phone_number=?, adress_id=?, gender_id=?";
+	private final String UPDATE_QUERY = "UPDATE Users SET name = ?, email = ?, age=?, user_phone_number=?, adress_id=?, gender_id=?";
 	private final String REMOVE_QUERY = "DELETE FROM Users WHERE id = ?";
 	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Users";
-	private Connection connection;
 	private PhoneNumberDAO userPhoneNumberDAO;
 	private AdressDAO userAdressDAO;
 	private GenderDAO userGenderDAO;
 	private ComputerForRepairDAO computerForRepairDAO;
+	private Connection connection;
 
 	public UserDAO() {
 
@@ -173,6 +173,38 @@ public class UserDAO implements IUserDAO {
 			}
 		}
 		return users;
+	}
+
+	public PhoneNumberDAO getUserPhoneNumberDAO() {
+		return userPhoneNumberDAO;
+	}
+
+	public void setUserPhoneNumberDAO(PhoneNumberDAO userPhoneNumberDAO) {
+		this.userPhoneNumberDAO = userPhoneNumberDAO;
+	}
+
+	public AdressDAO getUserAdressDAO() {
+		return userAdressDAO;
+	}
+
+	public void setUserAdressDAO(AdressDAO userAdressDAO) {
+		this.userAdressDAO = userAdressDAO;
+	}
+
+	public GenderDAO getUserGenderDAO() {
+		return userGenderDAO;
+	}
+
+	public void setUserGenderDAO(GenderDAO userGenderDAO) {
+		this.userGenderDAO = userGenderDAO;
+	}
+
+	public ComputerForRepairDAO getComputerForRepairDAO() {
+		return computerForRepairDAO;
+	}
+
+	public void setComputerForRepairDAO(ComputerForRepairDAO computerForRepairDAO) {
+		this.computerForRepairDAO = computerForRepairDAO;
 	}
 
 }

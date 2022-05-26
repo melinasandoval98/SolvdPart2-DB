@@ -1,16 +1,16 @@
 package com.solvd.computerrepairservice.model;
 
 public enum ComputerProblemTypes {
-	SOFTWARE_PROBLEM("software"), HARDWARE_PROBLEM("hardware");
+	SOFTWARE_PROBLEM(1), HARDWARE_PROBLEM(2);
 
-	private String computerProblemTypes;
+	private long computerProblemTypeID;
 
-	private ComputerProblemTypes(String computerProblemTypes) {
-		this.computerProblemTypes = computerProblemTypes;
+	private ComputerProblemTypes(long computerProblemTypeID) {
+		this.computerProblemTypeID = computerProblemTypeID;
 	}
 
-	public String getComputerProblemTypes() {
-		return computerProblemTypes;
+	public long getComputerProblemTypeID() {
+		return computerProblemTypeID;
 	}
 
 }

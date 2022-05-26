@@ -15,11 +15,11 @@ import com.solvd.computerrepairservice.model.PhoneNumber;
 
 public class PhoneNumberDAO implements IPhoneNumberDAO {
 	public static final Logger LOGGER = LogManager.getLogger(PhoneNumberDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Phone_Numbers WHERE id=?";
+	private final String INSERT_QUERY = "INSERT INTO Phone_Numbers (country_code, phone_number_body) VALUES (?,?,?)";
+	private final String UPDATE_QUERY = "UPDATE Phone_Numbers SET country_code = ?, phone_number_body = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Phone_Numbers WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Phone_Numbers";
 	private Connection connection;
 
 	public PhoneNumberDAO(Connection connection) {
@@ -30,7 +30,7 @@ public class PhoneNumberDAO implements IPhoneNumberDAO {
 	private PhoneNumber createPhoneNumber(ResultSet rs) {
 		PhoneNumber phoneNumber = null;
 		try {
-			phoneNumber = new PhoneNumber(rs.getLong("id"), rs.getInt("country_code"), rs.getInt("phone_number"));
+			phoneNumber = new PhoneNumber(rs.getLong("id"), rs.getInt("country_code"), rs.getInt("phone_number_body"));
 		} catch (SQLException e) {
 			LOGGER.error("SQLEception catched", e);
 		}
@@ -75,9 +75,8 @@ public class PhoneNumberDAO implements IPhoneNumberDAO {
 	@Override
 	public void insertEntity(PhoneNumber entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setInt(2, entity.getCountryCode());
-			prepStat.setLong(3, entity.getPhoneNumber());
+			prepStat.setInt(1, entity.getCountryCode());
+			prepStat.setLong(2, entity.getPhoneNumber());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -90,9 +89,8 @@ public class PhoneNumberDAO implements IPhoneNumberDAO {
 	@Override
 	public void updateEntity(PhoneNumber entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getPhoneNumberID());
-			prepStat.setInt(2, entity.getCountryCode());
-			prepStat.setLong(3, entity.getPhoneNumber());
+			prepStat.setInt(1, entity.getCountryCode());
+			prepStat.setLong(1, entity.getPhoneNumber());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info(
 						"Phone Number data of id = " + entity.getPhoneNumberID() + " has been updated successfully");

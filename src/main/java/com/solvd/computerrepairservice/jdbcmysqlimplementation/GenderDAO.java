@@ -16,11 +16,11 @@ import com.solvd.computerrepairservice.model.Genders;
 
 public class GenderDAO implements IGenderDAO {
 	public static final Logger LOGGER = LogManager.getLogger(AdressDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Genders WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Genders (gender) VALUES (?)";
+	private final String UPDATE_QUERY = "UPDATE Genders SET gender = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Genders WHERE id= ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Genders";
 	private Connection connection;
 
 	public GenderDAO(Connection connection) {
@@ -37,9 +37,9 @@ public class GenderDAO implements IGenderDAO {
 			prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
 			prepStat.setLong(1, id);
 			resultSet = prepStat.executeQuery();
-			if (resultSet.next()
-					&& Arrays.asList(Genders.values()).contains(Genders.valueOf(resultSet.getString("gender")))) {
-				gender = Genders.valueOf(resultSet.getString("gender"));
+			if (resultSet.next() && Arrays.asList(Genders.values())
+					.contains(Genders.valueOf(resultSet.getString("gender").toUpperCase()))) {
+				gender = Genders.valueOf(resultSet.getString("gender").toUpperCase());
 			} else {
 				throw new SQLException();
 			}
@@ -67,8 +67,7 @@ public class GenderDAO implements IGenderDAO {
 	@Override
 	public void insertEntity(Genders entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setString(2, entity.name());
+			prepStat.setString(1, entity.name());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -81,8 +80,7 @@ public class GenderDAO implements IGenderDAO {
 	@Override
 	public void updateEntity(Genders entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getGenderID());
-			prepStat.setString(2, entity.name());
+			prepStat.setString(1, entity.name());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Genders data of id = " + entity.getGenderID() + " has been updated successfully");
 			} else {
@@ -118,15 +116,15 @@ public class GenderDAO implements IGenderDAO {
 		try {
 			prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
 			resultSet = prepStat.executeQuery();
-			while (resultSet.next()
-					&& Arrays.asList(Genders.values()).contains(Genders.valueOf(resultSet.getString("gender")))) {
+			while (resultSet.next() && Arrays.asList(Genders.values())
+					.contains(Genders.valueOf(resultSet.getString("gender").toUpperCase()))) {
 				genders.add(Genders.valueOf(resultSet.getString("gender")));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("SQLException catched", e);
 		} finally {
-			if (resultSet.next()
-					&& Arrays.asList(Genders.values()).contains(Genders.valueOf(resultSet.getString("gender")))) {
+			if (resultSet.next() && Arrays.asList(Genders.values())
+					.contains(Genders.valueOf(resultSet.getString("gender").toUpperCase()))) {
 				genders.add(Genders.valueOf(resultSet.getString("gender")));
 			} else {
 				throw new SQLException();

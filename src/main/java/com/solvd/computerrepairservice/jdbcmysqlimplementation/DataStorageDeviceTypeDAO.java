@@ -16,11 +16,11 @@ import com.solvd.computerrepairservice.model.DataStorageTypes;
 
 public class DataStorageDeviceTypeDAO implements IDataStorageTypeDAO {
 	public static final Logger LOGGER = LogManager.getLogger(ProcessorDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Data_Storage_Devices_Types WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO  Data_Storage_Devices_Types (data_storage_type) VALUES (?)";
+	private final String UPDATE_QUERY = "UPDATE Data_Storage_Devices_Types SET data_storage_type = ?";
 	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Data_Storage_Devices_Types";
 	private Connection connection;
 
 	public DataStorageDeviceTypeDAO(Connection connection) {
@@ -67,8 +67,7 @@ public class DataStorageDeviceTypeDAO implements IDataStorageTypeDAO {
 	@Override
 	public void insertEntity(DataStorageTypes entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setString(2, entity.name());
+			prepStat.setString(1, entity.name());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -81,8 +80,7 @@ public class DataStorageDeviceTypeDAO implements IDataStorageTypeDAO {
 	@Override
 	public void updateEntity(DataStorageTypes entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getDataStorageTypeID());
-			prepStat.setString(2, entity.name());
+			prepStat.setString(1, entity.name());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Data Storage Types data of id = " + entity.getDataStorageTypeID()
 						+ " has been updated successfully");

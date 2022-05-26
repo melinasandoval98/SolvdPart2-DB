@@ -15,11 +15,11 @@ import com.solvd.computerrepairservice.model.EmployeeID;
 
 public class EmployeeIDDAO implements IEmployeeIDDAO {
 	public static final Logger LOGGER = LogManager.getLogger(EmployeeIDDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Employee_IDs WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Employee_IDs (employee_id, user_id) VALUES (?,?)";
+	private final String UPDATE_QUERY = "UPDATE Employee_IDs SET employee_id = ?, user_id= ?";
+	private final String REMOVE_QUERY = "DELETE FROM Employee_IDs WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Employee_IDs";
 	private UserDAO userDAO;
 	private Connection connection;
 
@@ -33,7 +33,8 @@ public class EmployeeIDDAO implements IEmployeeIDDAO {
 		EmployeeID employeeID = null;
 		try {
 			long userID = rs.getLong("id");
-			employeeID = new EmployeeID(userID, rs.getLong("employee_id"), userDAO.getEntityByID(userID));
+			employeeID = new EmployeeID(userID, rs.getLong("employee_id"),
+					userDAO.getEntityByID(rs.getLong("user_id")).getUserID());
 		} catch (SQLException e) {
 			LOGGER.error("SQLEception catched", e);
 		}
@@ -78,10 +79,8 @@ public class EmployeeIDDAO implements IEmployeeIDDAO {
 	@Override
 	public void insertEntity(EmployeeID entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			long nextEmployeeID = getAll().size() + 1;
-			prepStat.setLong(1, nextEmployeeID);
-			prepStat.setLong(2, entity.getEmployeeID());
-			prepStat.setLong(3, userDAO.getEntityByID(nextEmployeeID).getUserID());
+			prepStat.setLong(1, entity.getEmployeeID());
+			prepStat.setLong(1, entity.getUserID());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -94,9 +93,8 @@ public class EmployeeIDDAO implements IEmployeeIDDAO {
 	@Override
 	public void updateEntity(EmployeeID entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getId());
-			prepStat.setLong(2, entity.getEmployeeID());
-			prepStat.setLong(3, userDAO.getEntityByID(entity.getId()).getUserID());
+			prepStat.setLong(1, entity.getEmployeeID());
+			prepStat.setLong(1, entity.getUserID());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Employee ID's data of id = " + entity.getId() + " has been updated successfully");
 			} else {
@@ -158,6 +156,12 @@ public class EmployeeIDDAO implements IEmployeeIDDAO {
 				}
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public EmployeeID getUserByEmployeeID(long employeeID) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

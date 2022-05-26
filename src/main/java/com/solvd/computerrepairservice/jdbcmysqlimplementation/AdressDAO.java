@@ -15,11 +15,11 @@ import com.solvd.computerrepairservice.model.Adress;
 
 public class AdressDAO implements IAdressDAO {
 	public static final Logger LOGGER = LogManager.getLogger(AdressDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Adresses WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Adresses (street_number, street_name, city) VALUES (?,?,?)";
+	private final String UPDATE_QUERY = "UPDATE Users SET street_number = ?, street_name = ?, city = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Adresses WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Adresses";
 	private Connection connection;
 
 	public AdressDAO(Connection connection) {
@@ -76,10 +76,9 @@ public class AdressDAO implements IAdressDAO {
 	@Override
 	public void insertEntity(Adress entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setInt(2, entity.getStreetNumber());
-			prepStat.setString(3, entity.getStreetName());
-			prepStat.setString(4, entity.getCity());
+			prepStat.setInt(1, entity.getStreetNumber());
+			prepStat.setString(2, entity.getStreetName());
+			prepStat.setString(3, entity.getCity());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -92,10 +91,9 @@ public class AdressDAO implements IAdressDAO {
 	@Override
 	public void updateEntity(Adress entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getAdressID());
-			prepStat.setInt(2, entity.getStreetNumber());
-			prepStat.setString(3, entity.getStreetName());
-			prepStat.setString(4, entity.getCity());
+			prepStat.setInt(1, entity.getStreetNumber());
+			prepStat.setString(2, entity.getStreetName());
+			prepStat.setString(3, entity.getCity());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Address data of id = " + entity.getAdressID() + " has been updated successfully");
 			} else {

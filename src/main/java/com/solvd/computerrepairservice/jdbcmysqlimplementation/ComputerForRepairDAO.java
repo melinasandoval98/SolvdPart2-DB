@@ -1,6 +1,7 @@
 package com.solvd.computerrepairservice.jdbcmysqlimplementation;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,32 +16,28 @@ import com.solvd.computerrepairservice.model.ComputerForRepair;
 
 public class ComputerForRepairDAO implements IComputerForRepairDAO {
 	public static final Logger LOGGER = LogManager.getLogger(ComputerForRepairDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Computers_For_Repair WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Computers_For_Repair (computer_id, client_id, computer_repairer_id entry_date) VALUES (?,?,?,?)";
+	private final String UPDATE_QUERY = "UPDATE Computers_For_Repair SET computer_id = ?, client_id = ?,computer_repairer_id = ?, entry_date = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Computers_For_Repair WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Computers_For_Repair";
 	private ComputerDAO computerDAO;
 	private UserDAO userDAO;
-	private EmployeeIDDAO employeeIDDAO;
+	private UserDAO employeeDAO;
 	private Connection connection;
 
-	public ComputerForRepairDAO(ComputerDAO computerDAO, UserDAO userDAO, EmployeeIDDAO employeeIDDAO,
-			Connection connection) {
+	public ComputerForRepairDAO(Connection connection) {
 		super();
-		this.computerDAO = computerDAO;
-		this.userDAO = userDAO;
-		this.employeeIDDAO = employeeIDDAO;
 		this.connection = connection;
 	}
 
 	private ComputerForRepair createComputerForRepair(ResultSet rs) {
 		ComputerForRepair computerForRepair = null;
 		try {
-			long computerForRepairID = rs.getLong("id");
-			computerForRepair = new ComputerForRepair(computerForRepairID,
-					computerDAO.getEntityByID(computerForRepairID), userDAO.getEntityByID(computerForRepairID),
-					employeeIDDAO.getEntityByID(computerForRepairID));
+			computerForRepair = new ComputerForRepair(rs.getLong("id"),
+					computerDAO.getEntityByID(rs.getLong("computer_id")), rs.getDate("entry_date"),
+					userDAO.getEntityByID(rs.getLong("client_id")).getUserID(),
+					userDAO.getEntityByID(rs.getLong("computer_repairer_id")).getUserID());
 		} catch (SQLException e) {
 			LOGGER.error("SQLEception catched", e);
 		}
@@ -85,11 +82,10 @@ public class ComputerForRepairDAO implements IComputerForRepairDAO {
 	@Override
 	public void insertEntity(ComputerForRepair entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			long nextComputerForRepairID = getAll().size() + 1;
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setLong(2, computerDAO.getEntityByID(nextComputerForRepairID).getComputerID());
-			prepStat.setLong(3, userDAO.getEntityByID(nextComputerForRepairID).getUserID());
-			prepStat.setLong(4, employeeIDDAO.getEntityByID(nextComputerForRepairID).getId());
+			prepStat.setLong(1, entity.getComputer().getComputerID());
+			prepStat.setLong(2, entity.getClientID());
+			prepStat.setLong(3, entity.getRepairerID());
+			prepStat.setDate(4, (Date) entity.getEntryDate());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -102,13 +98,12 @@ public class ComputerForRepairDAO implements IComputerForRepairDAO {
 	@Override
 	public void updateEntity(ComputerForRepair entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			long nextComputerForRepairID = entity.getComputerForRepairID();
-			prepStat.setLong(1, getAll().size() + 1);
-			prepStat.setLong(2, computerDAO.getEntityByID(nextComputerForRepairID).getComputerID());
-			prepStat.setLong(3, userDAO.getEntityByID(nextComputerForRepairID).getUserID());
-			prepStat.setLong(4, employeeIDDAO.getEntityByID(nextComputerForRepairID).getId());
+			prepStat.setLong(1, entity.getComputer().getComputerID());
+			prepStat.setLong(2, entity.getClientID());
+			prepStat.setLong(3, entity.getRepairerID());
+			prepStat.setDate(4, (Date) entity.getEntryDate());
 			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Computer For Repair data of id = " + nextComputerForRepairID
+				LOGGER.info("Computer For Repair data of id = " + entity.getComputerForRepairID()
 						+ " has been updated successfully");
 			} else {
 				throw new SQLException();
@@ -178,11 +173,35 @@ public class ComputerForRepairDAO implements IComputerForRepairDAO {
 
 		try {
 			computersForRepair = getAll().stream()
-					.filter(computerForRepair -> computerForRepair.getclientID() == userID).toList();
+					.filter(computerForRepair -> computerForRepair.getClientID() == userID).toList();
 		} catch (SQLException e) {
 			LOGGER.error(e);
 		}
 		return computersForRepair;
+	}
+
+	public ComputerDAO getComputerDAO() {
+		return computerDAO;
+	}
+
+	public void setComputerDAO(ComputerDAO computerDAO) {
+		this.computerDAO = computerDAO;
+	}
+
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
+	public UserDAO getEmployeeDAO() {
+		return employeeDAO;
+	}
+
+	public void setEmployeeDAO(UserDAO employeeDAO) {
+		this.employeeDAO = employeeDAO;
 	}
 
 }

@@ -2,15 +2,15 @@ package com.solvd.computerrepairservice.model;
 
 public class ComputerProblemSubType {
 	private long id;
-	private ComputerProblemTypes computerProblemType;
+	private long computerProblemTypeID;
 	private String computerProblemDrescription;
 	private Long serviceSubPrice;
 
-	public ComputerProblemSubType(long id, ComputerProblemTypes computerProblemType, String computerProblemDrescription,
-			Long serviceSubPrice) {
+	public ComputerProblemSubType(long id, String computerProblemDrescription, Long serviceSubPrice,
+			long computerProblemType) {
 		super();
 		this.id = id;
-		this.computerProblemType = computerProblemType;
+		this.computerProblemTypeID = computerProblemType;
 		this.computerProblemDrescription = computerProblemDrescription;
 		this.serviceSubPrice = serviceSubPrice;
 	}
@@ -23,12 +23,12 @@ public class ComputerProblemSubType {
 		this.id = id;
 	}
 
-	public ComputerProblemTypes getComputerProblemType() {
-		return computerProblemType;
+	public long getComputerProblemTypeID() {
+		return computerProblemTypeID;
 	}
 
-	public void setComputerProblemType(ComputerProblemTypes computerProblemType) {
-		this.computerProblemType = computerProblemType;
+	public void setComputerProblemTypeID(long computerProblemTypeID) {
+		this.computerProblemTypeID = computerProblemTypeID;
 	}
 
 	public String getComputerProblemDrescription() {
@@ -45,13 +45,6 @@ public class ComputerProblemSubType {
 
 	public void setServiceSubPrice(Long serviceSubPrice) {
 		this.serviceSubPrice = serviceSubPrice;
-	}
-
-	@Override
-	public String toString() {
-		return "ComputerProblemSubType [id=" + id + ", computerProblemType=" + computerProblemType
-				+ ", computerProblemDrescription=" + computerProblemDrescription + ", serviceSubPrice="
-				+ serviceSubPrice + "]";
 	}
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<computerForRepair computerForRepairID="1">
+	<computer computerID="1">
+		<computerModel>Macboook Pro</computerModel>
+		<computerYear>2019</computerYear>
+		<oS>
+			<operatingSystemID>5</operatingSystemID>
+		</oS>
+		<computerProcessor>
+			<procesorID>5</procesorID>
+		</computerProcessor>
+		<computerDataStorageDevice>
+			<dataStorageTypeID>2</dataStorageTypeID>
+		</computerDataStorageDevice>
+		<computerDataStorageDeviceCapacity>1T</computerDataStorageDeviceCapacity>
+	</computer>
+	<clientID>4</clientID>
+	<repairerID>3</repairerID>
+	<entryDate>2022-01-02</entryDate>
+</computerForRepair>
+
+	

@@ -15,30 +15,29 @@ import com.solvd.computerrepairservice.model.Computer;
 
 public class ComputerDAO implements IComputerDAO {
 	public static final Logger LOGGER = LogManager.getLogger(ComputerDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Computers WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Computers (model, year, operating_system_id, processor_id, data_storage_device_type_id, data_storage_device_capacity) VELUES (?,?,?,?,?,?) ";
+	private final String UPDATE_QUERY = "UPDATE Computers SET model = ?, year = ?, operating_system_id = ?, processor_id = ?, data_storage_device_type_id = ?, data_storage_device_type_capacity = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Computers WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Computers";
 	private OperatingSystemDAO operatingSystemDAO;
 	private ProcessorDAO processorDAO;
 	private DataStorageDeviceTypeDAO dataStorageTypeDAO;
 	private Connection connection;
 
-	public ComputerDAO(OperatingSystemDAO operatingSystemDAO, ProcessorDAO processorDAO, Connection connection) {
+	public ComputerDAO(Connection connection) {
 		super();
-		this.operatingSystemDAO = operatingSystemDAO;
-		this.processorDAO = processorDAO;
 		this.connection = connection;
 	}
 
 	private Computer createComputer(ResultSet rs) {
 		Computer computer = null;
 		try {
-			long computerID = rs.getLong("id");
-			computer = new Computer(computerID, rs.getString("model"), rs.getInt("year"),
-					operatingSystemDAO.getEntityByID(computerID), processorDAO.getEntityByID(computerID),
-					dataStorageTypeDAO.getEntityByID(computerID), rs.getString("data_storage_device_type_capacity"));
+			computer = new Computer(rs.getLong("id"), rs.getString("model"), rs.getInt("year"),
+					operatingSystemDAO.getEntityByID(rs.getLong("operating_system_id")),
+					processorDAO.getEntityByID(rs.getLong("processor_id")),
+					dataStorageTypeDAO.getEntityByID(rs.getLong("data_storage_device_type_id")),
+					rs.getString("data_storage_device_capacity"));
 		} catch (SQLException e) {
 			LOGGER.error("SQLEception catched", e);
 		}
@@ -83,14 +82,12 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public void insertEntity(Computer entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			long nextComputerID = getAll().size() + 1;
-			prepStat.setLong(1, nextComputerID);
-			prepStat.setString(2, entity.getComputerModel());
-			prepStat.setInt(3, entity.getComputerYear());
-			prepStat.setLong(4, operatingSystemDAO.getEntityByID(nextComputerID).getOperatingSystemID());
-			prepStat.setLong(5, processorDAO.getEntityByID(nextComputerID).getProcesorID());
-			prepStat.setLong(6, dataStorageTypeDAO.getEntityByID(nextComputerID).getDataStorageTypeID());
-			prepStat.setString(7, entity.getComputerDataStorageDeviceCapacity());
+			prepStat.setString(1, entity.getComputerModel());
+			prepStat.setInt(2, entity.getComputerYear());
+			prepStat.setLong(3, entity.getoS().getOperatingSystemID());
+			prepStat.setLong(4, entity.getComputerProcessor().getProcesorID());
+			prepStat.setLong(5, entity.getComputerDataStorageDevice().getDataStorageTypeID());
+			prepStat.setString(6, entity.getComputerDataStorageDeviceCapacity());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
@@ -103,13 +100,12 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public void updateEntity(Computer entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getComputerID());
-			prepStat.setString(2, entity.getComputerModel());
-			prepStat.setInt(3, entity.getComputerYear());
-			prepStat.setLong(4, operatingSystemDAO.getEntityByID(entity.getComputerID()).getOperatingSystemID());
-			prepStat.setLong(5, processorDAO.getEntityByID(entity.getComputerID()).getProcesorID());
-			prepStat.setLong(6, dataStorageTypeDAO.getEntityByID(entity.getComputerID()).getDataStorageTypeID());
-			prepStat.setString(7, entity.getComputerDataStorageDeviceCapacity());
+			prepStat.setString(1, entity.getComputerModel());
+			prepStat.setInt(2, entity.getComputerYear());
+			prepStat.setLong(3, entity.getoS().getOperatingSystemID());
+			prepStat.setLong(4, entity.getComputerProcessor().getProcesorID());
+			prepStat.setLong(5, entity.getComputerDataStorageDevice().getDataStorageTypeID());
+			prepStat.setString(6, entity.getComputerDataStorageDeviceCapacity());
 			if (prepStat.executeUpdate() != 0) {
 				LOGGER.info("Computers data of id = " + entity.getComputerID() + " has been updated successfully");
 			} else {
@@ -151,11 +147,11 @@ public class ComputerDAO implements IComputerDAO {
 		} catch (SQLException e) {
 			LOGGER.error("SQLException catched", e);
 		} finally {
-			if (resultSet.next()) {
-				computers.add(createComputer(resultSet));
-			} else {
-				throw new SQLException();
-			}
+//			if (resultSet.next()) {
+//				computers.add(createComputer(resultSet));
+//			} else {
+//				throw new SQLException();
+//			}
 			if (prepStat != null) {
 				try {
 					prepStat.close();
@@ -172,6 +168,30 @@ public class ComputerDAO implements IComputerDAO {
 			}
 		}
 		return computers;
+	}
+
+	public OperatingSystemDAO getOperatingSystemDAO() {
+		return operatingSystemDAO;
+	}
+
+	public void setOperatingSystemDAO(OperatingSystemDAO operatingSystemDAO) {
+		this.operatingSystemDAO = operatingSystemDAO;
+	}
+
+	public ProcessorDAO getProcessorDAO() {
+		return processorDAO;
+	}
+
+	public void setProcessorDAO(ProcessorDAO processorDAO) {
+		this.processorDAO = processorDAO;
+	}
+
+	public DataStorageDeviceTypeDAO getDataStorageTypeDAO() {
+		return dataStorageTypeDAO;
+	}
+
+	public void setDataStorageTypeDAO(DataStorageDeviceTypeDAO dataStorageTypeDAO) {
+		this.dataStorageTypeDAO = dataStorageTypeDAO;
 	}
 
 }

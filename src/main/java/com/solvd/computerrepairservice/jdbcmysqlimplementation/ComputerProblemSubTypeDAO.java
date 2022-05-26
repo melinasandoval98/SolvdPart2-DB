@@ -10,52 +10,47 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solvd.computerrepairservice.dao.IEmployeeWorkScheduleDAO;
-import com.solvd.computerrepairservice.model.EmployeeWorkSchedule;
+import com.solvd.computerrepairservice.dao.IComputerProblemSubTypeDAO;
+import com.solvd.computerrepairservice.model.ComputerProblemSubType;
 
-public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
-	public static final Logger LOGGER = LogManager.getLogger(EmployeeWorkScheduleDAO.class);
-	private final String GET_BY_ID_QUERY = " ";
-	private final String INSERT_QUERY = " ";
-	private final String UPDATE_QUERY = " ";
-	private final String REMOVE_QUERY = " ";
-	private final String GET_ALL_VALUES_QUERY = " ";
-	private EmployeeIDDAO employeeIDDAO;
-	private WorkScheduleDAO workScheduleDAO;
+public class ComputerProblemSubTypeDAO implements IComputerProblemSubTypeDAO {
+	public static final Logger LOGGER = LogManager.getLogger(ComputerProblemSubTypeDAO.class);
+	private final String GET_BY_ID_QUERY = "SELECT * FROM Computer_Problems_Sub_Types WHERE id = ?";
+	private final String INSERT_QUERY = "INSERT INTO Computer_Problems_Sub_Types (sub_type_problem_description, sub_price, computer_problem_type_id) VELUES (?,?,?) ";
+	private final String UPDATE_QUERY = "UPDATE Computer_Problems_Sub_Types SET sub_type_problem_description= ?, sub_price= ?, computer_problem_type_id = ?";
+	private final String REMOVE_QUERY = "DELETE FROM Computer_Problems_Sub_Types WHERE id = ?";
+	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Computer_Problems_Sub_Types";
+	private ComputerProblemTypeDAO computerProblemTypeDAO;
 	private Connection connection;
 
-	public EmployeeWorkScheduleDAO(EmployeeIDDAO employeeIDDAO, WorkScheduleDAO workScheduleDAO,
-			Connection connection) {
+	public ComputerProblemSubTypeDAO(Connection connection) {
 		super();
-		this.employeeIDDAO = employeeIDDAO;
-		this.workScheduleDAO = workScheduleDAO;
 		this.connection = connection;
 	}
 
-	private EmployeeWorkSchedule createEmployeeWorkSchedule(ResultSet rs) {
-		EmployeeWorkSchedule employeeWorkSchedule = null;
+	private ComputerProblemSubType createComputerProblemSubType(ResultSet rs) {
+		ComputerProblemSubType computerProblemSubType = null;
 		try {
-			long employeeWorkScheduleID = rs.getLong("id");
-			employeeWorkSchedule = new EmployeeWorkSchedule(employeeWorkScheduleID,
-					employeeIDDAO.getEntityByID(employeeWorkScheduleID),
-					workScheduleDAO.getEntityByID(employeeWorkScheduleID));
+			computerProblemSubType = new ComputerProblemSubType(rs.getLong("id"),
+					rs.getString("sub_type_problem_description"), rs.getLong("sub_price"),
+					rs.getLong("computer_problem_type_id"));
 		} catch (SQLException e) {
 			LOGGER.error("SQLEception catched", e);
 		}
-		return employeeWorkSchedule;
+		return computerProblemSubType;
 	}
 
 	@Override
-	public EmployeeWorkSchedule getEntityByID(long id) {
+	public ComputerProblemSubType getEntityByID(long id) {
 		PreparedStatement prepStat = null;
 		ResultSet resultSet = null;
-		EmployeeWorkSchedule employeeWorkSchedule = null;
+		ComputerProblemSubType computerProblemSubType = null;
 		try {
 			prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
 			prepStat.setLong(1, id);
 			resultSet = prepStat.executeQuery();
 			if (resultSet.next()) {
-				employeeWorkSchedule = createEmployeeWorkSchedule(resultSet);
+				computerProblemSubType = createComputerProblemSubType(resultSet);
 			} else {
 				throw new SQLException();
 			}
@@ -77,34 +72,32 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				}
 			}
 		}
-		return employeeWorkSchedule;
+		return computerProblemSubType;
 	}
 
 	@Override
-	public void insertEntity(EmployeeWorkSchedule entity) {
+	public void insertEntity(ComputerProblemSubType entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			long nextEmployeeWorkScheduleID = getAll().size() + 1;
-			prepStat.setLong(1, nextEmployeeWorkScheduleID);
-			prepStat.setLong(2, employeeIDDAO.getEntityByID(nextEmployeeWorkScheduleID).getEmployeeID());
-			prepStat.setLong(3, workScheduleDAO.getEntityByID(nextEmployeeWorkScheduleID).getId());
+			prepStat.setString(1, entity.getComputerProblemDrescription());
+			prepStat.setLong(2, entity.getServiceSubPrice());
+			prepStat.setLong(3, entity.getComputerProblemTypeID());
 			if (prepStat.executeUpdate() == 0) {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
 			LOGGER.error("SQLException catched", e);
 		}
-
 	}
 
 	@Override
-	public void updateEntity(EmployeeWorkSchedule entity) {
+	public void updateEntity(ComputerProblemSubType entity) {
 		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			long nextEmployeeWorkScheduleID = entity.getId();
-			prepStat.setLong(1, nextEmployeeWorkScheduleID);
-			prepStat.setLong(2, employeeIDDAO.getEntityByID(nextEmployeeWorkScheduleID).getEmployeeID());
-			prepStat.setLong(3, workScheduleDAO.getEntityByID(nextEmployeeWorkScheduleID).getId());
+			prepStat.setString(1, entity.getComputerProblemDrescription());
+			prepStat.setLong(2, entity.getServiceSubPrice());
+			prepStat.setLong(3, entity.getComputerProblemTypeID());
 			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Employee Work Schedule data of id = " + entity.getId() + " has been updated successfully");
+				LOGGER.info("Computer ProblemS Sub Types data of id = " + entity.getId()
+						+ " has been updated successfully");
 			} else {
 				throw new SQLException();
 			}
@@ -120,7 +113,7 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 			prepStat.setLong(1, id);
 			prepStat.executeUpdate();
 			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Employee Work Schedule data of id = " + id + " has been deleted successfully");
+				LOGGER.info("Address data of id = " + id + " has been deleted successfully");
 			} else {
 				throw new SQLException();
 			}
@@ -130,21 +123,21 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 	}
 
 	@Override
-	public List<EmployeeWorkSchedule> getAll() throws SQLException {
+	public List<ComputerProblemSubType> getAll() throws SQLException {
 		PreparedStatement prepStat = null;
 		ResultSet resultSet = null;
-		List<EmployeeWorkSchedule> employeeWorkSchedule = new ArrayList<>();
+		List<ComputerProblemSubType> computerProblemSubTypes = new ArrayList<>();
 		try {
 			prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
 			resultSet = prepStat.executeQuery();
 			while (resultSet.next()) {
-				employeeWorkSchedule.add(createEmployeeWorkSchedule(resultSet));
+				computerProblemSubTypes.add(createComputerProblemSubType(resultSet));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("SQLException catched", e);
 		} finally {
 			if (resultSet.next()) {
-				employeeWorkSchedule.add(createEmployeeWorkSchedule(resultSet));
+				computerProblemSubTypes.add(createComputerProblemSubType(resultSet));
 			} else {
 				throw new SQLException();
 			}
@@ -163,7 +156,15 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				}
 			}
 		}
-		return employeeWorkSchedule;
+		return computerProblemSubTypes;
+	}
+
+	public ComputerProblemTypeDAO getComputerProblemTypeDAO() {
+		return computerProblemTypeDAO;
+	}
+
+	public void setComputerProblemTypeDAO(ComputerProblemTypeDAO computerProblemTypeDAO) {
+		this.computerProblemTypeDAO = computerProblemTypeDAO;
 	}
 
 }

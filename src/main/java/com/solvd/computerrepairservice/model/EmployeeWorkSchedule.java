@@ -2,13 +2,13 @@ package com.solvd.computerrepairservice.model;
 
 public class EmployeeWorkSchedule {
 	private long id;
-	private EmployeeID employeeID;
+	private Employee employee;
 	private WorkSchedule workSchedule;
 
-	public EmployeeWorkSchedule(long id, EmployeeID employeeID, WorkSchedule workSchedule) {
+	public EmployeeWorkSchedule(long id, Employee employeeID, WorkSchedule workSchedule) {
 		super();
 		this.id = id;
-		this.employeeID = employeeID;
+		this.employee = employeeID;
 		this.workSchedule = workSchedule;
 	}
 
@@ -20,12 +20,12 @@ public class EmployeeWorkSchedule {
 		this.id = id;
 	}
 
-	public EmployeeID getEmployeeID() {
-		return employeeID;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setEmployeeID(EmployeeID employeeID) {
-		this.employeeID = employeeID;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	public WorkSchedule getWorkSchedule() {
@@ -38,7 +38,7 @@ public class EmployeeWorkSchedule {
 
 	@Override
 	public String toString() {
-		return "EmployeeWorkSchedule [id=" + id + ", employeeID=" + employeeID + ", workSchedule=" + workSchedule + "]";
+		return "EmployeeWorkSchedule [id=" + id + ", employeeID=" + employee + ", workSchedule=" + workSchedule + "]";
 	}
 
 }

@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
-   <user userID="1">
-      <userName>Julia Roberts</userName>
-      <age>25</age>
-      <userEMail>juliaroberts@gmail.com</userEMail>
-      <userPhoneNumber>
-         <phoneNumberID>2</phoneNumberID>
-         <countryCode>2</countryCode>
-         <phoneNumber>23456783222</phoneNumber>
-      </userPhoneNumber>
-      <userAdress>
-         <adressID>3</adressID>
-         <streetNumber>42</streetNumber>
-         <streetName>wallaby st</streetName>
-         <city>sidney</city>
-      </userAdress>
-   </user>
-   <user userID="2">
-      <userName>Jack Nicholson</userName>
-      <age>60</age>
-      <userEMail>jacknicholson@gmail.com</userEMail>
-      <userPhoneNumber>
-         <phoneNumberID>1</phoneNumberID>
-         <countryCode>2</countryCode>
-         <phoneNumber>7766432255</phoneNumber>
-      </userPhoneNumber>
-      <userAdress>
-         <adressID>1</adressID>
-         <streetNumber>1367</streetNumber>
-         <streetName>lincoln st</streetName>
-         <city>sidney</city>
-      </userAdress>
-   </user>
+    <user userID="17">
+        <userName>Julia Roberts</userName>
+        <userEMail>juliaroberts@gmail.com</userEMail>
+        <userPhoneNumber phoneNumberID="25">
+            <countryCode>2</countryCode>
+            <phoneNumberBody>23456783222</phoneNumberBody>
+        </userPhoneNumber>
+        <userAddress addressID="11">
+            <addressID>3</addressID>
+            <streetNumber>42</streetNumber>
+            <streetName>wallaby st</streetName>
+            <city>sidney</city>
+        </userAddress>
+    </user>
+    <user userID="18">
+        <userName>Jack Nicholson</userName>
+        <userEMail>jacknicholson@gmail.com</userEMail>
+        <userPhoneNumber phoneNumberID="26">
+            <countryCode>2</countryCode>
+            <phoneNumberBody>7766432255</phoneNumberBody>
+        </userPhoneNumber>
+        <userAddress addressID="12">
+            <addressID>3</addressID>
+            <streetNumber>1367</streetNumber>
+            <streetName>lincoln st</streetName>
+            <city>sidney</city>
+        </userAddress>
+    </user>
 </users>

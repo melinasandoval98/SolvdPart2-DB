@@ -9,110 +9,82 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "user")
-@XmlType(propOrder = { "userID", "userName", "userAge", "userEMail", "userPhoneNumber", "userAdress", "userGender" })
+@XmlType(propOrder = {"userID", "userName", "userEMail", "userPhoneNumber", "userAddress"})
 public class User {
-	private long userID;
-	private String userName;
-	private Integer userAge;
-	private String userEMail;
-	private PhoneNumber userPhoneNumber;
-	private Adress userAdress;
-	private Genders userGender;
-	private List<ComputerForRepair> userComputersForRepair = new ArrayList<>();
+    private long userID;
+    private String userName;
+    private String userEMail;
+    private PhoneNumber userPhoneNumber;
+    private Address userAddress;
 
-	public User() {
+    public User() {
 
-	}
+    }
 
-	public User(long userID, String userName, Integer userAge, String userEMail, PhoneNumber userPhoneNumber,
-			Adress userAdress, Genders userGender, List<ComputerForRepair> userComputers) {
-		super();
-		this.userID = userID;
-		this.userName = userName;
-		this.userAge = userAge;
-		this.userEMail = userEMail;
-		this.userPhoneNumber = userPhoneNumber;
-		this.userAdress = userAdress;
-		this.userGender = userGender;
-		this.userComputersForRepair = userComputers;
-	}
+    public User(long userID, String userName, String userEMail, PhoneNumber userPhoneNumber,
+                Address userAddress) {
+        this.userID = userID;
+        this.userName = userName;
+        this.userEMail = userEMail;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+    }
 
-	@XmlAttribute(name = "userID")
-	public long getUserID() {
-		return userID;
-	}
+    public User(long userID, String userName, Integer userAge, String userEMail) {
+        this.userID = userID;
+        this.userName = userName;
+        this.userEMail = userEMail;
+    }
 
-	public void setUserID(long userID) {
-		this.userID = userID;
-	}
+    public long getUserID() {
+        return userID;
+    }
 
-	@XmlElement(name = "userName")
-	public String getUserName() {
-		return userName;
-	}
+    @XmlAttribute(name = "userID")
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	@XmlElement(name = "userAge")
-	public Integer getUserAge() {
-		return userAge;
-	}
+    @XmlElement(name = "userName")
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setUserAge(Integer userAge) {
-		this.userAge = userAge;
-	}
+    public String getUserEMail() {
+        return userEMail;
+    }
 
-	@XmlElement(name = "userEMail")
-	public String getUserEMail() {
-		return userEMail;
-	}
+    @XmlElement(name = "userEMail")
+    public void setUserEMail(String userEMail) {
+        this.userEMail = userEMail;
+    }
 
-	public void setUserEMail(String userEMail) {
-		this.userEMail = userEMail;
-	}
+    public PhoneNumber getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
 
-	@XmlElement(name = "userPhoneNumber")
-	public PhoneNumber getUserPhoneNumber() {
-		return userPhoneNumber;
-	}
+    @XmlElement(name = "userPhoneNumber")
+    public void setUserPhoneNumber(PhoneNumber userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
 
-	public void setUserPhoneNumber(PhoneNumber userPhoneNumber) {
-		this.userPhoneNumber = userPhoneNumber;
-	}
+    public Address getUserAddress() {
+        return userAddress;
+    }
 
-	@XmlElement(name = "userAdress")
-	public Adress getUserAdress() {
-		return userAdress;
-	}
+    @XmlElement(name = "userAddress")
+    public void setUserAddress(Address userAddress) {
+        this.userAddress = userAddress;
+    }
 
-	public void setUserAdress(Adress userAdress) {
-		this.userAdress = userAdress;
-	}
-
-	@XmlElement(name = "userGender")
-	public Genders getUserGender() {
-		return userGender;
-	}
-
-	public void setUserGender(Genders userGender) {
-		this.userGender = userGender;
-	}
-
-	public List<ComputerForRepair> getUserComputers() {
-		return userComputersForRepair;
-	}
-
-	public void setUserComputers(List<ComputerForRepair> userComputers) {
-		this.userComputersForRepair = userComputers;
-	}
-
-	@Override
-	public String toString() {
-		return "User [userID=" + userID + ", userName=" + userName + ", userAge=" + userAge + ", userEMail=" + userEMail
-				+ ", userPhoneNumber=" + userPhoneNumber + ", userAdress=" + userAdress + ", userGender=" + userGender
-				+ ", userComputers=" + userComputersForRepair + "]";
-	}
+    @Override
+    public String toString() {
+        return "User [userID=" + userID + ", userName=" + userName + ", userAge=" + ", userEMail=" + userEMail
+                + ", userPhoneNumber=" + userPhoneNumber + ", userAddress=" + userAddress + ", userGender=";
+    }
 
 }

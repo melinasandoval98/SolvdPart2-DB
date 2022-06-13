@@ -1,6 +1,8 @@
 package com.solvd.computerrepairservice.model;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,78 +13,80 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.solvd.computerrepairservice.jaxb.DateAdapter;
 
 @XmlRootElement(name = "computerForRepair")
-@XmlType(propOrder = { "computerForRepairID", "computer", "clientID", "repairerID", "entryDate" })
+@XmlType(propOrder = {"computerForRepairID", "computer", "clientID", "repairerID", "entryDate"})
 public class ComputerForRepair {
-	private long computerForRepairID;
-	private Computer computer;
-	private Date entryDate;
-	private long clientID;
-	private long repairerID;
+    private long computerForRepairID;
+    private Computer computer;
+    private Date entryDate;
+    private long clientID;
+    private long repairerID;
+    private List<ComputerForRepairDiagnosis> computerForRepairDiagnosis = new ArrayList<>();
 
-	public ComputerForRepair() {
+    public ComputerForRepair() {
 
-	}
+    }
 
-	public ComputerForRepair(long computerForRepairID, Computer computer, Date entryDate, long clientID,
-			long repairerID) {
-		super();
-		this.computerForRepairID = computerForRepairID;
-		this.computer = computer;
-		this.entryDate = entryDate;
-		this.clientID = clientID;
-		this.repairerID = repairerID;
-	}
+    public ComputerForRepair(long computerForRepairID, Computer computer, Date entryDate, long clientID, long repairerID, List<ComputerForRepairDiagnosis> computerForRepairDiagnosis) {
+        this.computerForRepairID = computerForRepairID;
+        this.computer = computer;
+        this.entryDate = entryDate;
+        this.clientID = clientID;
+        this.repairerID = repairerID;
+        this.computerForRepairDiagnosis = computerForRepairDiagnosis;
+    }
 
-	@XmlAttribute(name = "computerForRepairID")
-	public long getComputerForRepairID() {
-		return computerForRepairID;
-	}
+    public ComputerForRepair(long computerForRepairID, Date entryDate, long clientID, long repairerID) {
+        this.computerForRepairID = computerForRepairID;
+        this.entryDate = entryDate;
+        this.clientID = clientID;
+        this.repairerID = repairerID;
+    }
 
-	public void setComputerForRepairID(long computerForRepairID) {
-		this.computerForRepairID = computerForRepairID;
-	}
+    public long getComputerForRepairID() {
+        return computerForRepairID;
+    }
 
-	@XmlElement(name = "computer")
-	public Computer getComputer() {
-		return computer;
-	}
+    public void setComputerForRepairID(long computerForRepairID) {
+        this.computerForRepairID = computerForRepairID;
+    }
 
-	public void setComputer(Computer computer) {
-		this.computer = computer;
-	}
+    public Computer getComputer() {
+        return computer;
+    }
 
-	@XmlElement(name = "entryDate")
-	@XmlJavaTypeAdapter(DateAdapter.class)
-	public Date getEntryDate() {
-		return entryDate;
-	}
+    public void setComputer(Computer computer) {
+        this.computer = computer;
+    }
 
-	public void setEntryDate(Date entryDate) {
-		this.entryDate = entryDate;
-	}
+    public Date getEntryDate() {
+        return entryDate;
+    }
 
-	@XmlElement(name = "clientID")
-	public long getClientID() {
-		return clientID;
-	}
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
 
-	public void setClientID(long clientID) {
-		this.clientID = clientID;
-	}
+    public long getClientID() {
+        return clientID;
+    }
 
-	@XmlElement(name = "repairerID")
-	public long getRepairerID() {
-		return repairerID;
-	}
+    public void setClientID(long clientID) {
+        this.clientID = clientID;
+    }
 
-	public void setRepairerID(long repairerID) {
-		this.repairerID = repairerID;
-	}
+    public long getRepairerID() {
+        return repairerID;
+    }
 
-	@Override
-	public String toString() {
-		return "ComputerForRepair [computerForRepairID=" + computerForRepairID + ", computer=" + computer
-				+ ", entryDate=" + entryDate + ", clientID=" + clientID + ", repairerID=" + repairerID + "]";
-	}
+    public void setRepairerID(long repairerID) {
+        this.repairerID = repairerID;
+    }
 
+    public List<ComputerForRepairDiagnosis> getComputerForRepairDiagnosis() {
+        return computerForRepairDiagnosis;
+    }
+
+    public void setComputerForRepairDiagnosis(List<ComputerForRepairDiagnosis> computerForRepairDiagnosis) {
+        this.computerForRepairDiagnosis = computerForRepairDiagnosis;
+    }
 }

@@ -7,16 +7,9 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solvd.computerrepairservice.dao.IAdressDAO;
 import com.solvd.computerrepairservice.dao.IComputerDAO;
-import com.solvd.computerrepairservice.dao.IComputerForRepairDAO;
-import com.solvd.computerrepairservice.dao.IDataStorageTypeDAO;
-import com.solvd.computerrepairservice.dao.IGenderDAO;
-import com.solvd.computerrepairservice.dao.IOperatingSystemDAO;
 import com.solvd.computerrepairservice.dao.IPhoneNumberDAO;
-import com.solvd.computerrepairservice.dao.IProcessorDAO;
-import com.solvd.computerrepairservice.dao.IUserDAO;
-import com.solvd.computerrepairservice.jdbcmysqlimplementation.AdressDAO;
+import com.solvd.computerrepairservice.jdbcmysqlimplementation.AddressDAO;
 import com.solvd.computerrepairservice.jdbcmysqlimplementation.ComputerDAO;
 import com.solvd.computerrepairservice.jdbcmysqlimplementation.ComputerForRepairDAO;
 import com.solvd.computerrepairservice.jdbcmysqlimplementation.DataStorageDeviceTypeDAO;
@@ -37,7 +30,7 @@ public class DAORunner {
 			conn = DriverManager.getConnection("jdbc:mysql://52.59.193.212:3306/Melina_Sandoval?user=root", "root",
 					"devintern");
 			PhoneNumberDAO phoneNumberDAO = new PhoneNumberDAO(conn);
-			AdressDAO adressDAO = new AdressDAO(conn);
+			AddressDAO adressDAO = new AddressDAO(conn);
 			GenderDAO genderDAO = new GenderDAO(conn);
 			UserDAO userDAO = new UserDAO(conn);
 			ComputerDAO computerDAO = new ComputerDAO(conn);
@@ -46,16 +39,16 @@ public class DAORunner {
 			DataStorageDeviceTypeDAO dataStorageDeviceType = new DataStorageDeviceTypeDAO(conn);
 			ComputerForRepairDAO computerForRepairDAO = new ComputerForRepairDAO(conn);
 
-			userDAO.setComputerForRepairDAO(computerForRepairDAO);
-			userDAO.setUserGenderDAO(genderDAO);
-			userDAO.setUserPhoneNumberDAO(phoneNumberDAO);
-			userDAO.setUserAdressDAO(adressDAO);
-			computerDAO.setDataStorageTypeDAO(dataStorageDeviceType);
-			computerDAO.setOperatingSystemDAO(oSDAO);
-			computerDAO.setProcessorDAO(processorDAO);
-			computerForRepairDAO.setComputerDAO(computerDAO);
-			computerForRepairDAO.setEmployeeDAO(userDAO);
-			computerForRepairDAO.setUserDAO(userDAO);
+		//	userDAO.setComputerForRepairDAO(computerForRepairDAO);
+		//	userDAO.setUserGenderDAO(genderDAO);
+		//	userDAO.setUserPhoneNumberDAO(phoneNumberDAO);
+		//	userDAO.setUserAdressDAO(adressDAO);
+		//	computerDAO.setDataStorageTypeDAO(dataStorageDeviceType);
+		//	computerDAO.setOperatingSystemDAO(oSDAO);
+		//	computerDAO.setProcessorDAO(processorDAO);
+		//	computerForRepairDAO.setComputerDAO(computerDAO);
+		//	computerForRepairDAO.setEmployeeDAO(userDAO);
+		//	computerForRepairDAO.setUserDAO(userDAO);
 
 			IPhoneNumberDAO iPhoneNumberDAO = phoneNumberDAO;
 //			IAdressDAO iAdressDAO = adressDAO;

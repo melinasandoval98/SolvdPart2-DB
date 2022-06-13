@@ -7,204 +7,234 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.solvd.computerrepairservice.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.solvd.computerrepairservice.dao.IUserDAO;
-import com.solvd.computerrepairservice.model.User;
 
 public class UserDAO implements IUserDAO {
-	public static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
-	private final String GET_BY_ID_QUERY = "SELECT * FROM Users WHERE id = ?";
-	private final String INSERT_QUERY = "INSERT INTO Users (name, email, age, user_phone_number, adress_id, gender_id) VALUES (?,?,?,?,?,?)";
-	private final String UPDATE_QUERY = "UPDATE Users SET name = ?, email = ?, age=?, user_phone_number=?, adress_id=?, gender_id=?";
-	private final String REMOVE_QUERY = "DELETE FROM Users WHERE id = ?";
-	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Users";
-	private PhoneNumberDAO userPhoneNumberDAO;
-	private AdressDAO userAdressDAO;
-	private GenderDAO userGenderDAO;
-	private ComputerForRepairDAO computerForRepairDAO;
-	private Connection connection;
+    public static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
+    private final String GET_BY_ID_QUERY = "SELECT id, name, email FROM Users WHERE id = ?";
+    private final String INSERT_QUERY = "INSERT INTO Users (name, email, user_phone_number_id, address_id) VALUES (?,?,?,?)";
+    private final String UPDATE_QUERY = "UPDATE Users SET name = ?, email = ?, user_phone_number_id=?, address_id=? WHERE id = ?";
+    private final String REMOVE_QUERY = "DELETE FROM Users WHERE id = ?";
+    private final String GET_ALL_VALUES_QUERY = "SELECT id, name, email FROM Users";
 
-	public UserDAO() {
+    private final String GET_BY_CLIENT_ID_QUERY = "SELECT id, name, email FROM Users u JOIN Clients c ON u.id = c.user_id WHERE c.id = ?";
 
-	}
+    private final String GET_BY_EMPLOYEE_ID_QUERY = "SELECT id, name, email FROM Users u JOIN Employees e ON u.id = e.user_id WHERE e.id = ?";
 
-	public UserDAO(Connection connection) {
-		super();
-		this.connection = connection;
-	}
+    private Connection connection;
 
-	private User createUser(ResultSet rs) {
-		User user = null;
-		try {
-			long userID = rs.getLong("id");
-			user = new User(userID, rs.getString("name"), rs.getInt("age"), rs.getString("email"),
-					userPhoneNumberDAO.getEntityByID(rs.getLong("user_phone_number_id")),
-					userAdressDAO.getEntityByID(rs.getLong("adress_id")),
-					userGenderDAO.getEntityByID(rs.getLong("gender_id")),
-					computerForRepairDAO.getComputerForRepairByUserID(userID));
-		} catch (SQLException e) {
-			LOGGER.error("SQLEception catched", e);
-		}
-		return user;
-	}
+    public UserDAO() {
 
-	@Override
-	public User getEntityByID(long id) {
-		PreparedStatement prepStat = null;
-		ResultSet resultSet = null;
-		User user = null;
-		try {
-			prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
-			prepStat.setLong(1, id);
-			resultSet = prepStat.executeQuery();
-			if (resultSet.next()) {
-				user = createUser(resultSet);
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		} finally {
-			if (prepStat != null) {
-				try {
-					prepStat.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the PreparedStatement connection", e);
-				}
-			}
-			if (resultSet != null) {
-				try {
-					resultSet.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the ResultSet connection", e);
-				}
-			}
-		}
-		return user;
-	}
+    }
 
-	@Override
-	public void insertEntity(User entity) {
-		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setString(1, entity.getUserName());
-			prepStat.setString(2, entity.getUserEMail());
-			prepStat.setInt(3, entity.getUserAge());
-			prepStat.setLong(4, entity.getUserPhoneNumber().getPhoneNumberID());
-			prepStat.setLong(5, entity.getUserAdress().getAdressID());
-			prepStat.setLong(6, entity.getUserGender().getGenderID());
-			if (prepStat.executeUpdate() == 0) {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		}
-	}
+    public UserDAO(Connection connection) {
+        super();
+        this.connection = connection;
+    }
 
-	@Override
-	public void updateEntity(User entity) {
-		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setString(1, entity.getUserName());
-			prepStat.setString(2, entity.getUserEMail());
-			prepStat.setInt(3, entity.getUserAge());
-			prepStat.setLong(4, entity.getUserPhoneNumber().getPhoneNumberID());
-			prepStat.setLong(5, entity.getUserAdress().getAdressID());
-			prepStat.setLong(6, entity.getUserGender().getGenderID());
-			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Address data of id = " + entity.getUserID() + " has been updated successfully");
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		}
+    private User createUser(ResultSet rs) {
+        User user = null;
+        try {
+            user = new User(rs.getLong("id"), rs.getString("name"), rs.getInt("age"), rs.getString("email"));
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
+        return user;
+    }
 
-	}
+    @Override
+    public User getEntityByID(long id) {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try {
+            prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
+            prepStat.setLong(1, id);
+            resultSet = prepStat.executeQuery();
+            if (resultSet.next()) {
+                user = createUser(resultSet);
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return user;
+    }
 
-	@Override
-	public void removeEntity(long id) {
-		try (PreparedStatement prepStat = connection.prepareStatement(REMOVE_QUERY)) {
-			prepStat.setLong(1, id);
-			prepStat.executeUpdate();
-			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Address data of id = " + id + " has been deleted successfully");
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		}
+    @Override
+    public void insertEntity(User entity) {
+        try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
+            prepStat.setString(1, entity.getUserName());
+            prepStat.setString(2, entity.getUserEMail());
+            prepStat.setLong(3, entity.getUserPhoneNumber().getPhoneNumberID());
+            prepStat.setLong(4, entity.getUserAddress().getAddressID());
+            if (prepStat.executeUpdate() == 0) {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
+    }
 
-	}
+    @Override
+    public void updateEntity(User entity) {
+        try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
+            prepStat.setString(1, entity.getUserName());
+            prepStat.setString(2, entity.getUserEMail());
+            prepStat.setLong(3, entity.getUserPhoneNumber().getPhoneNumberID());
+            prepStat.setLong(4, entity.getUserAddress().getAddressID());
+            prepStat.setLong(5, entity.getUserID());
+            if (prepStat.executeUpdate() != 0) {
+                LOGGER.info("Address data of id = " + entity.getUserID() + " has been updated successfully");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
 
-	@Override
-	public List<User> getAll() throws SQLException {
-		PreparedStatement prepStat = null;
-		ResultSet resultSet = null;
-		List<User> users = new ArrayList<>();
-		try {
-			prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
-			resultSet = prepStat.executeQuery();
-			while (resultSet.next()) {
-				users.add(createUser(resultSet));
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		} finally {
-			if (resultSet.next()) {
-				users.add(createUser(resultSet));
-			} else {
-				throw new SQLException();
-			}
-			if (prepStat != null) {
-				try {
-					prepStat.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the PreparedStatement connection", e);
-				}
-			}
-			if (resultSet != null) {
-				try {
-					resultSet.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the ResultSet connection", e);
-				}
-			}
-		}
-		return users;
-	}
+    }
 
-	public PhoneNumberDAO getUserPhoneNumberDAO() {
-		return userPhoneNumberDAO;
-	}
+    @Override
+    public void removeEntity(long id) {
+        try (PreparedStatement prepStat = connection.prepareStatement(REMOVE_QUERY)) {
+            prepStat.setLong(1, id);
+            prepStat.executeUpdate();
+            if (prepStat.executeUpdate() != 0) {
+                LOGGER.info("Address data of id = " + id + " has been deleted successfully");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
 
-	public void setUserPhoneNumberDAO(PhoneNumberDAO userPhoneNumberDAO) {
-		this.userPhoneNumberDAO = userPhoneNumberDAO;
-	}
+    }
 
-	public AdressDAO getUserAdressDAO() {
-		return userAdressDAO;
-	}
+    @Override
+    public List<User> getAll() throws SQLException {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        List<User> users = new ArrayList<>();
+        try {
+            prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
+            resultSet = prepStat.executeQuery();
+            while (resultSet.next()) {
+                users.add(createUser(resultSet));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (resultSet.next()) {
+                users.add(createUser(resultSet));
+            } else {
+                throw new SQLException();
+            }
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return users;
+    }
 
-	public void setUserAdressDAO(AdressDAO userAdressDAO) {
-		this.userAdressDAO = userAdressDAO;
-	}
+    @Override
+    public User getUserByClientID(long clientID) {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try {
+            prepStat = connection.prepareStatement(GET_BY_CLIENT_ID_QUERY);
+            prepStat.setLong(1, clientID);
+            resultSet = prepStat.executeQuery();
+            if (resultSet.next()) {
+                user = createUser(resultSet);
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return user;
+    }
 
-	public GenderDAO getUserGenderDAO() {
-		return userGenderDAO;
-	}
-
-	public void setUserGenderDAO(GenderDAO userGenderDAO) {
-		this.userGenderDAO = userGenderDAO;
-	}
-
-	public ComputerForRepairDAO getComputerForRepairDAO() {
-		return computerForRepairDAO;
-	}
-
-	public void setComputerForRepairDAO(ComputerForRepairDAO computerForRepairDAO) {
-		this.computerForRepairDAO = computerForRepairDAO;
-	}
-
+    @Override
+    public User getUserByEmployeeID(long employeeID) {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try {
+            prepStat = connection.prepareStatement(GET_BY_EMPLOYEE_ID_QUERY);
+            prepStat.setLong(1, employeeID);
+            resultSet = prepStat.executeQuery();
+            if (resultSet.next()) {
+                user = createUser(resultSet);
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return user;
+    }
 }

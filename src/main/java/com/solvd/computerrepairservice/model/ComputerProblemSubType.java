@@ -1,50 +1,68 @@
 package com.solvd.computerrepairservice.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComputerProblemSubType {
-	private long id;
-	private long computerProblemTypeID;
-	private String computerProblemDrescription;
-	private Long serviceSubPrice;
+    private long id;
+    private ComputerProblemTypes problemType;
+    private String problemDescription;
+    private Long serviceSubPrice;
+    private List<ComputerForRepairDiagnosis> computerForRepairDiagnosis = new ArrayList<>();
 
-	public ComputerProblemSubType(long id, String computerProblemDrescription, Long serviceSubPrice,
-			long computerProblemType) {
-		super();
-		this.id = id;
-		this.computerProblemTypeID = computerProblemType;
-		this.computerProblemDrescription = computerProblemDrescription;
-		this.serviceSubPrice = serviceSubPrice;
-	}
+    public ComputerProblemSubType() {
+    }
 
-	public long getId() {
-		return id;
-	}
+    public ComputerProblemSubType(long id, ComputerProblemTypes problemType, String problemDescription, Long serviceSubPrice, List<ComputerForRepairDiagnosis> computerForRepairDiagnosis) {
+        this.id = id;
+        this.problemType = problemType;
+        this.problemDescription = problemDescription;
+        this.serviceSubPrice = serviceSubPrice;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public ComputerProblemSubType(long id, String problemDescription, Long serviceSubPrice) {
+        this.id = id;
+        this.problemDescription = problemDescription;
+        this.serviceSubPrice = serviceSubPrice;
+    }
 
-	public long getComputerProblemTypeID() {
-		return computerProblemTypeID;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setComputerProblemTypeID(long computerProblemTypeID) {
-		this.computerProblemTypeID = computerProblemTypeID;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getComputerProblemDrescription() {
-		return computerProblemDrescription;
-	}
+    public ComputerProblemTypes getProblemType() {
+        return problemType;
+    }
 
-	public void setComputerProblemDrescription(String computerProblemDrescription) {
-		this.computerProblemDrescription = computerProblemDrescription;
-	}
+    public void setProblemType(ComputerProblemTypes problemType) {
+        this.problemType = problemType;
+    }
 
-	public Long getServiceSubPrice() {
-		return serviceSubPrice;
-	}
+    public String getProblemDescription() {
+        return problemDescription;
+    }
 
-	public void setServiceSubPrice(Long serviceSubPrice) {
-		this.serviceSubPrice = serviceSubPrice;
-	}
+    public void setProblemDescription(String problemDescription) {
+        this.problemDescription = problemDescription;
+    }
 
+    public Long getServiceSubPrice() {
+        return serviceSubPrice;
+    }
+
+    public void setServiceSubPrice(Long serviceSubPrice) {
+        this.serviceSubPrice = serviceSubPrice;
+    }
+
+    public List<ComputerForRepairDiagnosis> getComputerForRepairDiagnosis() {
+        return computerForRepairDiagnosis;
+    }
+
+    public void setComputerForRepairDiagnosis(List<ComputerForRepairDiagnosis> computerForRepairDiagnosis) {
+        this.computerForRepairDiagnosis = computerForRepairDiagnosis;
+    }
 }

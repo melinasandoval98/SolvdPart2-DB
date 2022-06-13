@@ -1,53 +1,58 @@
 package com.solvd.computerrepairservice.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "userPhoneNumber")
-@XmlType(propOrder = { "phoneNumberID", "countryCode", "phoneNumber" })
+@XmlType(propOrder = {"phoneNumberID", "countryCode", "phoneNumber"})
 public class PhoneNumber {
-	private long phoneNumberID;
-	private int countryCode;
-	private long phoneNumber;
+    private long phoneNumberID;
+    private int countryCode;
+    private long phoneNumberBody;
 
-	public PhoneNumber() {
+    public PhoneNumber() {
 
-	}
+    }
 
-	public PhoneNumber(long phoneNumberID, int countryCode, long phoneNumber) {
-		super();
-		this.phoneNumber = phoneNumberID;
-		this.countryCode = countryCode;
-		this.phoneNumber = phoneNumber;
-	}
+    public PhoneNumber(long phoneNumberID, int countryCode, long phoneNumber) {
+        super();
+        this.phoneNumberBody = phoneNumberID;
+        this.countryCode = countryCode;
+        this.phoneNumberBody = phoneNumber;
+    }
 
-	public long getPhoneNumberID() {
-		return phoneNumberID;
-	}
+    public long getPhoneNumberID() {
+        return phoneNumberID;
+    }
 
-	public void setPhoneNumberID(long phoneNumberID) {
-		this.phoneNumberID = phoneNumberID;
-	}
+    @XmlAttribute(name = "phoneNumberID")
+    public void setPhoneNumberID(long phoneNumberID) {
+        this.phoneNumberID = phoneNumberID;
+    }
 
-	public int getCountryCode() {
-		return countryCode;
-	}
+    public int getCountryCode() {
+        return countryCode;
+    }
 
-	public void setCountryCode(int countryCode) {
-		this.countryCode = countryCode;
-	}
+    @XmlElement(name = "countryCode")
+    public void setCountryCode(int countryCode) {
+        this.countryCode = countryCode;
+    }
 
-	public long getPhoneNumber() {
-		return phoneNumber;
-	}
+    public long getPhoneNumberBody() {
+        return phoneNumberBody;
+    }
 
-	public void setPhoneNumber(long phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    @XmlElement(name = "phoneNumberBody")
+    public void setPhoneNumberBody(long phoneNumberBody) {
+        this.phoneNumberBody = phoneNumberBody;
+    }
 
-	@Override
-	public String toString() {
-		return "PhoneNumber [countryCode=" + countryCode + ", phoneNumber=" + phoneNumber + "]";
-	}
+    @Override
+    public String toString() {
+        return "PhoneNumber [countryCode=" + countryCode + ", phoneNumber=" + phoneNumberBody + "]";
+    }
 
 }

@@ -15,193 +15,230 @@ import com.solvd.computerrepairservice.dao.IComputerForRepairDAO;
 import com.solvd.computerrepairservice.model.ComputerForRepair;
 
 public class ComputerForRepairDAO implements IComputerForRepairDAO {
-	public static final Logger LOGGER = LogManager.getLogger(ComputerForRepairDAO.class);
-	private final String GET_BY_ID_QUERY = "SELECT * FROM Computers_For_Repair WHERE id = ?";
-	private final String INSERT_QUERY = "INSERT INTO Computers_For_Repair (computer_id, client_id, computer_repairer_id entry_date) VALUES (?,?,?,?)";
-	private final String UPDATE_QUERY = "UPDATE Computers_For_Repair SET computer_id = ?, client_id = ?,computer_repairer_id = ?, entry_date = ?";
-	private final String REMOVE_QUERY = "DELETE FROM Computers_For_Repair WHERE id = ?";
-	private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Computers_For_Repair";
-	private ComputerDAO computerDAO;
-	private UserDAO userDAO;
-	private UserDAO employeeDAO;
-	private Connection connection;
+    public static final Logger LOGGER = LogManager.getLogger(ComputerForRepairDAO.class);
+    private final String GET_BY_ID_QUERY = "SELECT client_id, employee_id, entry_date FROM Computers_For_Repair WHERE id = ?";
+    private final String INSERT_QUERY = "INSERT INTO Computers_For_Repair (computer_id, client_id, employee_id entry_date) VALUES (?,?,?,?)";
+    private final String UPDATE_QUERY = "UPDATE Computers_For_Repair SET computer_id = ?, client_id = ?, employee_id = ?, entry_date = ? WHERE id = ?";
+    private final String REMOVE_QUERY = "DELETE FROM Computers_For_Repair WHERE id = ?";
+    private final String GET_ALL_VALUES_QUERY = "SELECT client_id, employee_id, entry_date FROM Computers_For_Repair";
 
-	public ComputerForRepairDAO(Connection connection) {
-		super();
-		this.connection = connection;
-	}
+    private final String GET_ALL_BY_CLIENT_ID_QUERY = "SELECT client_id, employee_id, entry_date FROM Computers_For_Repair cfr JOIN Clients c ON c.id = cfr.client_id";
+    private final String GET_ALL_BY_EMPLOYEE_ID_QUERY = "SELECT client_id, employee_id, entry_date FROM Computers_For_Repair cfr JOIN Employees e ON e.id = cfr.employee_id";
 
-	private ComputerForRepair createComputerForRepair(ResultSet rs) {
-		ComputerForRepair computerForRepair = null;
-		try {
-			computerForRepair = new ComputerForRepair(rs.getLong("id"),
-					computerDAO.getEntityByID(rs.getLong("computer_id")), rs.getDate("entry_date"),
-					userDAO.getEntityByID(rs.getLong("client_id")).getUserID(),
-					userDAO.getEntityByID(rs.getLong("computer_repairer_id")).getUserID());
-		} catch (SQLException e) {
-			LOGGER.error("SQLEception catched", e);
-		}
-		return computerForRepair;
-	}
 
-	@Override
-	public ComputerForRepair getEntityByID(long id) {
-		PreparedStatement prepStat = null;
-		ResultSet resultSet = null;
-		ComputerForRepair computerForRepair = null;
-		try {
-			prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
-			prepStat.setLong(1, id);
-			resultSet = prepStat.executeQuery();
-			if (resultSet.next()) {
-				computerForRepair = createComputerForRepair(resultSet);
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		} finally {
-			if (prepStat != null) {
-				try {
-					prepStat.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the PreparedStatement connection", e);
-				}
-			}
-			if (resultSet != null) {
-				try {
-					resultSet.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the ResultSet connection", e);
-				}
-			}
-		}
-		return computerForRepair;
-	}
+    private Connection connection;
 
-	@Override
-	public void insertEntity(ComputerForRepair entity) {
-		try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-			prepStat.setLong(1, entity.getComputer().getComputerID());
-			prepStat.setLong(2, entity.getClientID());
-			prepStat.setLong(3, entity.getRepairerID());
-			prepStat.setDate(4, (Date) entity.getEntryDate());
-			if (prepStat.executeUpdate() == 0) {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		}
+    public ComputerForRepairDAO(Connection connection) {
+        super();
+        this.connection = connection;
+    }
 
-	}
+    private ComputerForRepair createComputerForRepair(ResultSet rs) {
+        ComputerForRepair computerForRepair = null;
+        try {
+            computerForRepair = new ComputerForRepair(rs.getLong("id"), rs.getDate("entry_date"), rs.getLong("client_id"),
+                    rs.getLong("employee_id"));
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
+        return computerForRepair;
+    }
 
-	@Override
-	public void updateEntity(ComputerForRepair entity) {
-		try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-			prepStat.setLong(1, entity.getComputer().getComputerID());
-			prepStat.setLong(2, entity.getClientID());
-			prepStat.setLong(3, entity.getRepairerID());
-			prepStat.setDate(4, (Date) entity.getEntryDate());
-			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Computer For Repair data of id = " + entity.getComputerForRepairID()
-						+ " has been updated successfully");
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		}
+    @Override
+    public ComputerForRepair getEntityByID(long id) {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        ComputerForRepair computerForRepair = null;
+        try {
+            prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
+            prepStat.setLong(1, id);
+            resultSet = prepStat.executeQuery();
+            if (resultSet.next()) {
+                computerForRepair = createComputerForRepair(resultSet);
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return computerForRepair;
+    }
 
-	}
+    @Override
+    public void insertEntity(ComputerForRepair entity) {
+        try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
+            prepStat.setLong(1, entity.getComputer().getComputerID());
+            prepStat.setLong(2, entity.getClientID());
+            prepStat.setLong(3, entity.getRepairerID());
+            prepStat.setDate(4, (Date) entity.getEntryDate());
+            if (prepStat.executeUpdate() == 0) {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
 
-	@Override
-	public void removeEntity(long id) {
-		try (PreparedStatement prepStat = connection.prepareStatement(REMOVE_QUERY)) {
-			prepStat.setLong(1, id);
-			prepStat.executeUpdate();
-			if (prepStat.executeUpdate() != 0) {
-				LOGGER.info("Address data of id = " + id + " has been deleted successfully");
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		}
+    }
 
-	}
+    @Override
+    public void updateEntity(ComputerForRepair entity) {
+        try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
+            prepStat.setLong(1, entity.getComputer().getComputerID());
+            prepStat.setLong(2, entity.getClientID());
+            prepStat.setLong(3, entity.getRepairerID());
+            prepStat.setDate(4, entity.getEntryDate());
+            prepStat.setLong(5, entity.getComputerForRepairID());
+            if (prepStat.executeUpdate() != 0) {
+                LOGGER.info("Computer For Repair data of id = " + entity.getComputerForRepairID()
+                        + " has been updated successfully");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
 
-	@Override
-	public List<ComputerForRepair> getAll() throws SQLException {
-		PreparedStatement prepStat = null;
-		ResultSet resultSet = null;
-		List<ComputerForRepair> computersForRepair = new ArrayList<>();
-		try {
-			prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
-			resultSet = prepStat.executeQuery();
-			while (resultSet.next()) {
-				computersForRepair.add(createComputerForRepair(resultSet));
-			}
-		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
-		} finally {
-			if (resultSet.next()) {
-				computersForRepair.add(createComputerForRepair(resultSet));
-			} else {
-				throw new SQLException();
-			}
-			if (prepStat != null) {
-				try {
-					prepStat.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the PreparedStatement connection", e);
-				}
-			}
-			if (resultSet != null) {
-				try {
-					resultSet.close();
-				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the ResultSet connection", e);
-				}
-			}
-		}
-		return computersForRepair;
-	}
+    }
 
-	@Override
-	public List<ComputerForRepair> getComputerForRepairByUserID(long userID) {
-		List<ComputerForRepair> computersForRepair = new ArrayList<>();
+    @Override
+    public void removeEntity(long id) {
+        try (PreparedStatement prepStat = connection.prepareStatement(REMOVE_QUERY)) {
+            prepStat.setLong(1, id);
+            prepStat.executeUpdate();
+            if (prepStat.executeUpdate() != 0) {
+                LOGGER.info("Address data of id = " + id + " has been deleted successfully");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
 
-		try {
-			computersForRepair = getAll().stream()
-					.filter(computerForRepair -> computerForRepair.getClientID() == userID).toList();
-		} catch (SQLException e) {
-			LOGGER.error(e);
-		}
-		return computersForRepair;
-	}
+    }
 
-	public ComputerDAO getComputerDAO() {
-		return computerDAO;
-	}
+    @Override
+    public List<ComputerForRepair> getAll() throws SQLException {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        List<ComputerForRepair> computersForRepair = new ArrayList<>();
+        try {
+            prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
+            resultSet = prepStat.executeQuery();
+            while (resultSet.next()) {
+                computersForRepair.add(createComputerForRepair(resultSet));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (resultSet.next()) {
+                computersForRepair.add(createComputerForRepair(resultSet));
+            } else {
+                throw new SQLException();
+            }
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return computersForRepair;
+    }
 
-	public void setComputerDAO(ComputerDAO computerDAO) {
-		this.computerDAO = computerDAO;
-	}
+    @Override
+    public List<ComputerForRepair> getComputersForRepairByClientID(long clientID) throws SQLException {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        List<ComputerForRepair> computersForRepair = new ArrayList<>();
+        try {
+            prepStat = connection.prepareStatement(GET_ALL_BY_CLIENT_ID_QUERY);
+            resultSet = prepStat.executeQuery();
+            while (resultSet.next()) {
+                computersForRepair.add(createComputerForRepair(resultSet));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (resultSet.next()) {
+                computersForRepair.add(createComputerForRepair(resultSet));
+            } else {
+                throw new SQLException();
+            }
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return computersForRepair;
+    }
 
-	public UserDAO getUserDAO() {
-		return userDAO;
-	}
-
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
-	public UserDAO getEmployeeDAO() {
-		return employeeDAO;
-	}
-
-	public void setEmployeeDAO(UserDAO employeeDAO) {
-		this.employeeDAO = employeeDAO;
-	}
-
+    @Override
+    public List<ComputerForRepair> getComputersForRepairByEmployeeID(long employeeID) throws SQLException {
+        PreparedStatement prepStat = null;
+        ResultSet resultSet = null;
+        List<ComputerForRepair> computersForRepair = new ArrayList<>();
+        try {
+            prepStat = connection.prepareStatement(GET_ALL_BY_EMPLOYEE_ID_QUERY);
+            resultSet = prepStat.executeQuery();
+            while (resultSet.next()) {
+                computersForRepair.add(createComputerForRepair(resultSet));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        } finally {
+            if (resultSet.next()) {
+                computersForRepair.add(createComputerForRepair(resultSet));
+            } else {
+                throw new SQLException();
+            }
+            if (prepStat != null) {
+                try {
+                    prepStat.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
+                }
+            }
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    LOGGER.error("SQLException caught while closing the ResultSet connection", e);
+                }
+            }
+        }
+        return computersForRepair;
+    }
 }

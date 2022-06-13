@@ -14,15 +14,15 @@ import org.xml.sax.SAXException;
 
 import com.solvd.computerrepairservice.model.User;
 
-public class SAXParserRunner {
-	public static final Logger LOGGER = LogManager.getLogger(SAXParserRunner.class);
+public class UserSAXRunner {
+	public static final Logger LOGGER = LogManager.getLogger(UserSAXRunner.class);
 
-	private static void xmlSAXPrasing(UserXMLSAXParser userHandler) {
+	private static void xmlSAXParsing(UserXMLSAXParser userHandler) {
 		try {
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			String path = System.getProperty("user.dir");
-			File file = new File(path + "/src/main/resources/user.xml");
+			File file = new File("/Users/solvd/Desktop/Laba-DB/SolvdPart2-DB/src/main/resources/xml/user.xml");
 			saxParser.parse(file, userHandler);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			LOGGER.error(e);
@@ -32,7 +32,7 @@ public class SAXParserRunner {
 
 	public static void main(String[] args) {
 		UserXMLSAXParser userHandler = new UserXMLSAXParser();
-		xmlSAXPrasing(userHandler);
+		xmlSAXParsing(userHandler);
 		ArrayList<User> users = userHandler.getUsers();
 		users.stream().forEach(user -> LOGGER.info(user));
 	}

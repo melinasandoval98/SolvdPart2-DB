@@ -20,12 +20,12 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 	private final String UPDATE_QUERY = " ";
 	private final String REMOVE_QUERY = " ";
 	private final String GET_ALL_VALUES_QUERY = " ";
-	private EmployeeIDDAO employeeIDDAO;
+	private EmployeeDAO employeeIDDAO;
 	private WorkScheduleDAO workScheduleDAO;
 	private Connection connection;
 
-	public EmployeeWorkScheduleDAO(EmployeeIDDAO employeeIDDAO, WorkScheduleDAO workScheduleDAO,
-			Connection connection) {
+	public EmployeeWorkScheduleDAO(EmployeeDAO employeeIDDAO, WorkScheduleDAO workScheduleDAO,
+                                   Connection connection) {
 		super();
 		this.employeeIDDAO = employeeIDDAO;
 		this.workScheduleDAO = workScheduleDAO;
@@ -40,7 +40,7 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 					employeeIDDAO.getEntityByID(employeeWorkScheduleID),
 					workScheduleDAO.getEntityByID(employeeWorkScheduleID));
 		} catch (SQLException e) {
-			LOGGER.error("SQLEception catched", e);
+			LOGGER.error("SQLException caught", e);
 		}
 		return employeeWorkSchedule;
 	}
@@ -60,20 +60,20 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
+			LOGGER.error("SQLException caught", e);
 		} finally {
 			if (prepStat != null) {
 				try {
 					prepStat.close();
 				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the PreparedStatement connection", e);
+					LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
 				}
 			}
 			if (resultSet != null) {
 				try {
 					resultSet.close();
 				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the ResultSet connection", e);
+					LOGGER.error("SQLException caught while closing the ResultSet connection", e);
 				}
 			}
 		}
@@ -91,7 +91,7 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
+			LOGGER.error("SQLException caught", e);
 		}
 
 	}
@@ -109,7 +109,7 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
+			LOGGER.error("SQLException caught", e);
 		}
 
 	}
@@ -125,7 +125,7 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
+			LOGGER.error("SQLException caught", e);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				employeeWorkSchedule.add(createEmployeeWorkSchedule(resultSet));
 			}
 		} catch (SQLException e) {
-			LOGGER.error("SQLException catched", e);
+			LOGGER.error("SQLException caught", e);
 		} finally {
 			if (resultSet.next()) {
 				employeeWorkSchedule.add(createEmployeeWorkSchedule(resultSet));
@@ -152,14 +152,14 @@ public class EmployeeWorkScheduleDAO implements IEmployeeWorkScheduleDAO {
 				try {
 					prepStat.close();
 				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the PreparedStatement connection", e);
+					LOGGER.error("SQLException caught while closing the PreparedStatement connection", e);
 				}
 			}
 			if (resultSet != null) {
 				try {
 					resultSet.close();
 				} catch (SQLException e) {
-					LOGGER.error("SQLException catched while closing the ResultSet connection", e);
+					LOGGER.error("SQLException caught while closing the ResultSet connection", e);
 				}
 			}
 		}

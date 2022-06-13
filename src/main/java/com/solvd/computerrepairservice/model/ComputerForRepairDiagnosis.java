@@ -4,47 +4,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComputerForRepairDiagnosis {
-	private long computerForRepairDiagnosisID;
-	private ComputerForRepair computerForRepair;
-	private List<ComputerProblemSubType> computerSubTypesProblems = new ArrayList<>();
+    private long computerForRepairDiagnosisID;
+    private long computerForRepairID;
+    private long problemSubTypeID;
 
-	public ComputerForRepairDiagnosis(long computerForRepairDiagnosisID, ComputerForRepair computerForRepair,
-			List<ComputerProblemSubType> computerSubTypesProblems) {
-		super();
-		this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
-		this.computerForRepair = computerForRepair;
-		this.computerSubTypesProblems = computerSubTypesProblems;
-	}
+    public ComputerForRepairDiagnosis(long computerForRepairDiagnosisID, long computerForRepairID, long problemSubTypeID) {
+        this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
+        this.computerForRepairID = computerForRepairID;
+        this.problemSubTypeID = problemSubTypeID;
+    }
 
-	public long getComputerForRepairDiagnosisID() {
-		return computerForRepairDiagnosisID;
-	}
+    public long getComputerForRepairDiagnosisID() {
+        return computerForRepairDiagnosisID;
+    }
 
-	public void setComputerForRepairDiagnosisID(long computerForRepairDiagnosisID) {
-		this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
-	}
+    public void setComputerForRepairDiagnosisID(long computerForRepairDiagnosisID) {
+        this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
+    }
 
-	public ComputerForRepair getComputerForRepair() {
-		return computerForRepair;
-	}
+    public long getComputerForRepairID() {
+        return computerForRepairID;
+    }
 
-	public void setComputerForRepair(ComputerForRepair computerForRepair) {
-		this.computerForRepair = computerForRepair;
-	}
+    public void setComputerForRepairID(long computerForRepairID) {
+        this.computerForRepairID = computerForRepairID;
+    }
 
-	public List<ComputerProblemSubType> getComputerSubTypesProblems() {
-		return computerSubTypesProblems;
-	}
+    public long getProblemSubTypeID() {
+        return problemSubTypeID;
+    }
 
-	public void setComputerSubTypesProblems(List<ComputerProblemSubType> computerSubTypesProblems) {
-		this.computerSubTypesProblems = computerSubTypesProblems;
-	}
+    public void setProblemSubTypeID(long problemSubTypeID) {
+        this.problemSubTypeID = problemSubTypeID;
+    }
 
-	@Override
-	public String toString() {
-		return "ComputerForRepairDiagnosis [computerForRepairDiagnosisID=" + computerForRepairDiagnosisID
-				+ ", computerForRepair=" + computerForRepair + ", computerSubTypesProblems=" + computerSubTypesProblems
-				+ "]";
-	}
-
+    @Override
+    public String toString() {
+        return "ComputerForRepairDiagnosis{" +
+                "computerForRepairDiagnosisID=" + computerForRepairDiagnosisID +
+                ", computerForRepairID=" + computerForRepairID +
+                ", problemSubTypeID=" + problemSubTypeID +
+                '}';
+    }
 }

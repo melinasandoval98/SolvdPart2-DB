@@ -5,41 +5,49 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import com.solvd.computerrepairservice.dao.IEmployeeDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solvd.computerrepairservice.dao.IOperatingSystemDAO;
-import com.solvd.computerrepairservice.model.OperatingSystems;
+import com.solvd.computerrepairservice.model.Employee;
 
-public class OperatingSystemDAO implements IOperatingSystemDAO {
-    public static final Logger LOGGER = LogManager.getLogger(OperatingSystemDAO.class);
-    private final String GET_BY_ID_QUERY = "SELECT * FROM Operating_Systems WHERE id = ?";
-    private final String INSERT_QUERY = "INSERT INTO Operating_Systems (o_s) VALUES (?)";
-    private final String UPDATE_QUERY = "UPDATE Operating_Systems SET o_s = ? WHERE id = ?";
-    private final String REMOVE_QUERY = "DELETE FROM Operating_Systems WHERE id =?";
-    private final String GET_ALL_VALUES_QUERY = "SELECT * FROM Operating_Systems";
+public class EmployeeDAO implements IEmployeeDAO {
+    public static final Logger LOGGER = LogManager.getLogger(EmployeeDAO.class);
+    private final String GET_BY_ID_QUERY = "SELECT id, identification_number, date_of_birth FROM Employees WHERE id = ?";
+    private final String INSERT_QUERY = "INSERT INTO Employees (user_id, identification_number, date_of_birth, gender_id) VALUES (?,?,?,?)";
+    private final String UPDATE_QUERY = "UPDATE Employees user_id = ?, identification_number = ?, date_of_birth = ?, gender_id = ? WHERE id = ?";
+    private final String REMOVE_QUERY = "DELETE FROM Employees WHERE id = ?";
+    private final String GET_ALL_VALUES_QUERY = "SELECT id, identification_number, date_of_birth FROM Employees";
     private Connection connection;
 
-    public OperatingSystemDAO(Connection connection) {
+    public EmployeeDAO(Connection connection) {
         super();
         this.connection = connection;
     }
 
+    private Employee createEmployee(ResultSet rs) {
+        Employee employee = null;
+        try {
+            employee = new Employee(rs.getLong("id"), rs.getLong("identification_number"), rs.getDate("date_of_birth"));
+        } catch (SQLException e) {
+            LOGGER.error("SQLException caught", e);
+        }
+        return employee;
+    }
+
     @Override
-    public OperatingSystems getEntityByID(long id) {
+    public Employee getEntityByID(long id) {
         PreparedStatement prepStat = null;
         ResultSet resultSet = null;
-        OperatingSystems oS = null;
+        Employee employee = null;
         try {
             prepStat = connection.prepareStatement(GET_BY_ID_QUERY);
             prepStat.setLong(1, id);
             resultSet = prepStat.executeQuery();
-            if (resultSet.next() && Arrays.asList(OperatingSystems.values())
-                    .contains(OperatingSystems.valueOf(resultSet.getString("o_s").toUpperCase()))) {
-                oS = OperatingSystems.valueOf(resultSet.getString("o_s").toUpperCase());
+            if (resultSet.next()) {
+                employee = createEmployee(resultSet);
             } else {
                 throw new SQLException();
             }
@@ -61,13 +69,16 @@ public class OperatingSystemDAO implements IOperatingSystemDAO {
                 }
             }
         }
-        return oS;
+        return employee;
     }
 
     @Override
-    public void insertEntity(OperatingSystems entity) {
+    public void insertEntity(Employee entity) {
         try (PreparedStatement prepStat = connection.prepareStatement(INSERT_QUERY)) {
-            prepStat.setString(1, entity.name());
+            prepStat.setLong(1, entity.getUser().getUserID());
+            prepStat.setLong(2, entity.getEmployeeIdentificationNumber());
+            prepStat.setDate(3, entity.getEmployeeDateOfBirth());
+            prepStat.setLong(4, entity.getEmployeeGender().getGenderID());
             if (prepStat.executeUpdate() == 0) {
                 throw new SQLException();
             }
@@ -78,13 +89,15 @@ public class OperatingSystemDAO implements IOperatingSystemDAO {
     }
 
     @Override
-    public void updateEntity(OperatingSystems entity) {
+    public void updateEntity(Employee entity) {
         try (PreparedStatement prepStat = connection.prepareStatement(UPDATE_QUERY)) {
-            prepStat.setString(1, entity.name());
-            prepStat.setLong(2, entity.getOSID());
+            prepStat.setLong(1, entity.getUser().getUserID());
+            prepStat.setLong(2, entity.getEmployeeIdentificationNumber());
+            prepStat.setDate(3, entity.getEmployeeDateOfBirth());
+            prepStat.setLong(4, entity.getEmployeeGender().getGenderID());
+            prepStat.setLong(5, entity.getEmployeeID());
             if (prepStat.executeUpdate() != 0) {
-                LOGGER.info("Operating Systems data of id = " + entity.getOSID()
-                        + " has been updated successfully");
+                LOGGER.info("Employees data of id = " + entity.getEmployeeID() + " has been updated successfully");
             } else {
                 throw new SQLException();
             }
@@ -100,7 +113,7 @@ public class OperatingSystemDAO implements IOperatingSystemDAO {
             prepStat.setLong(1, id);
             prepStat.executeUpdate();
             if (prepStat.executeUpdate() != 0) {
-                LOGGER.info("Operating Systems data of id = " + id + " has been deleted successfully");
+                LOGGER.info("Employees data of id = " + id + " has been deleted successfully");
             } else {
                 throw new SQLException();
             }
@@ -111,23 +124,21 @@ public class OperatingSystemDAO implements IOperatingSystemDAO {
     }
 
     @Override
-    public List<OperatingSystems> getAll() throws SQLException {
+    public List<Employee> getAll() throws SQLException {
         PreparedStatement prepStat = null;
         ResultSet resultSet = null;
-        List<OperatingSystems> operatingSystems = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
         try {
             prepStat = connection.prepareStatement(GET_ALL_VALUES_QUERY);
             resultSet = prepStat.executeQuery();
-            while (resultSet.next() && Arrays.asList(OperatingSystems.values())
-                    .contains(OperatingSystems.valueOf(resultSet.getString("o_s").toUpperCase()))) {
-                operatingSystems.add(OperatingSystems.valueOf(resultSet.getString("o_s").toUpperCase()));
+            while (resultSet.next()) {
+                employees.add(createEmployee(resultSet));
             }
         } catch (SQLException e) {
             LOGGER.error("SQLException caught", e);
         } finally {
-            if (resultSet.next() && Arrays.asList(OperatingSystems.values())
-                    .contains(OperatingSystems.valueOf(resultSet.getString("o_s")))) {
-                operatingSystems.add(OperatingSystems.valueOf(resultSet.getString("o_s")));
+            if (resultSet.next()) {
+                employees.add(createEmployee(resultSet));
             } else {
                 throw new SQLException();
             }
@@ -146,6 +157,7 @@ public class OperatingSystemDAO implements IOperatingSystemDAO {
                 }
             }
         }
-        return operatingSystems;
+        return employees;
     }
+
 }

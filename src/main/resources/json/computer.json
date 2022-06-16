@@ -1,0 +1,15 @@
+{
+  "computerID": 100,
+  "computerModel": "Acer Aspire",
+  "computerYear": "2012",
+  "computerOS": {
+    "oSID": 4
+  },
+  "computerProcessor": {
+    "processorID": 2
+  },
+  "computerDataStorageDevice": {
+    "dataStorageTypeID": 1
+  },
+  "computerDataStorageDeviceCapacity": "250GB"
+}

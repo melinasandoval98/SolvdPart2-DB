@@ -1,22 +1,4 @@
-<computerForRepairDiagnosiss>
-    <computerForRepairDiagnosis computerForRepairDiagnosisID="33">
-        <computerForRepairID>25</computerForRepairID>
-        <problemSubTypeID>2</problemSubTypeID>
-    </computerForRepairDiagnosis>
-    <computerForRepairDiagnosis computerForRepairDiagnosisID="34">
-        <computerForRepairID>26</computerForRepairID>
-        <problemSubTypeID>15</problemSubTypeID>
-    </computerForRepairDiagnosis>
-    <computerForRepairDiagnosis computerForRepairDiagnosisID="35">
-        <computerForRepairID>26</computerForRepairID>
-        <problemSubTypeID>20</problemSubTypeID>
-    </computerForRepairDiagnosis>
-    <computerForRepairDiagnosis computerForRepairDiagnosisID="36">
-        <computerForRepairID>27</computerForRepairID>
-        <problemSubTypeID>17</problemSubTypeID>
-    </computerForRepairDiagnosis>
-    <computerForRepairDiagnosis computerForRepairDiagnosisID="37">
-        <computerForRepairID>28</computerForRepairID>
-        <problemSubTypeID>31</problemSubTypeID>
-    </computerForRepairDiagnosis>
-</computerForRepairDiagnosiss>
+<computerForRepairDiagnosis computerForRepairDiagnosisID="33">
+    <computerForRepairID>25</computerForRepairID>
+    <problemSubTypeID>2</problemSubTypeID>
+</computerForRepairDiagnosis>

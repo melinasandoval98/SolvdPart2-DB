@@ -1,0 +1,17 @@
+[
+  {
+    "computerForRepairDiagnosisID": 30,
+    "computerForRepairID": 22,
+    "problemSubTypeID": 1
+  },
+  {
+    "computerForRepairDiagnosisID": 38,
+    "computerForRepairID": 28,
+    "problemSubTypeID": 2
+  },
+  {
+    "computerForRepairDiagnosisID": 35,
+    "computerForRepairID": 10,
+    "problemSubTypeID": 1
+  }
+]

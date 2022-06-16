@@ -1,31 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<users>
-    <user userID="17">
-        <userName>Julia Roberts</userName>
-        <userEMail>juliaroberts@gmail.com</userEMail>
-        <userPhoneNumber phoneNumberID="25">
-            <countryCode>2</countryCode>
-            <phoneNumberBody>23456783222</phoneNumberBody>
-        </userPhoneNumber>
-        <userAddress addressID="11">
-            <addressID>3</addressID>
-            <streetNumber>42</streetNumber>
-            <streetName>wallaby st</streetName>
-            <city>sidney</city>
-        </userAddress>
-    </user>
-    <user userID="18">
-        <userName>Jack Nicholson</userName>
-        <userEMail>jacknicholson@gmail.com</userEMail>
-        <userPhoneNumber phoneNumberID="26">
-            <countryCode>2</countryCode>
-            <phoneNumberBody>7766432255</phoneNumberBody>
-        </userPhoneNumber>
-        <userAddress addressID="12">
-            <addressID>3</addressID>
-            <streetNumber>1367</streetNumber>
-            <streetName>lincoln st</streetName>
-            <city>sidney</city>
-        </userAddress>
-    </user>
-</users>
+<user userID="17">
+    <userName>Julia Roberts</userName>
+    <userEMail>juliaroberts@gmail.com</userEMail>
+    <userPhoneNumber phoneNumberID="25">
+        <countryCode>2</countryCode>
+        <phoneNumberBody>23456783222</phoneNumberBody>
+    </userPhoneNumber>
+    <userAddress addressID="11">
+        <addressID>3</addressID>
+        <streetNumber>42</streetNumber>
+        <streetName>wallaby st</streetName>
+        <city>sidney</city>
+    </userAddress>
+</user>

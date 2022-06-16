@@ -65,4 +65,15 @@ public class ComputerProblemSubType {
     public void setComputerForRepairDiagnosis(List<ComputerForRepairDiagnosis> computerForRepairDiagnosis) {
         this.computerForRepairDiagnosis = computerForRepairDiagnosis;
     }
+
+    @Override
+    public String toString() {
+        return "ComputerProblemSubType{" +
+                "id=" + id +
+                ", problemType=" + problemType +
+                ", problemDescription='" + problemDescription + '\'' +
+                ", serviceSubPrice=" + serviceSubPrice +
+                ", computerForRepairDiagnosis=" + computerForRepairDiagnosis +
+                '}';
+    }
 }

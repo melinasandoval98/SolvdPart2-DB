@@ -79,4 +79,16 @@ public class Employee {
     public void setUserComputersForRepair(List<ComputerForRepair> userComputersForRepair) {
         this.userComputersForRepair = userComputersForRepair;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeID=" + employeeID +
+                ", user=" + user +
+                ", employeeIdentificationNumber=" + employeeIdentificationNumber +
+                ", employeeDateOfBirth=" + employeeDateOfBirth +
+                ", employeeGender=" + employeeGender +
+                ", userComputersForRepair=" + userComputersForRepair +
+                '}';
+    }
 }

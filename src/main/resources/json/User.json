@@ -1,0 +1,16 @@
+{
+  "userID": 20,
+  "userName": "Lauri Ylonen",
+  "userEMail": "lauri@gmail.com</userEMail",
+  "userPhoneNumber": {
+    "phoneNumberID": 30,
+    "countryCode": 2,
+    "phoneNumberBody": 7575755757
+  },
+  "userAddress": {
+    "addressID": 1,
+    "streetNumber": 76,
+    "streetName": "Australia St",
+    "city": "Sidney"
+  }
+}

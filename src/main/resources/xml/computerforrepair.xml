@@ -1,44 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<computersForRepair>
-    <computerForRepair computerForRepairID="20">
-        <computer computerID="25">
-            <computerModel>Acer Swift 7</computerModel>
-            <computerYear>2016</computerYear>
-            <computerOS>
-                <oSID>5</oSID>
-            </computerOS>
-            <computerProcessor>
-                <processorID>1</processorID>
-            </computerProcessor>
-            <computerDataStorageDevice>
-                <dataStorageTypeID>2</dataStorageTypeID>
-            </computerDataStorageDevice>
-            <computerDataStorageDeviceCapacity>250GB</computerDataStorageDeviceCapacity>
-        </computer>
-        <clientID>4</clientID>
-        <repairerID>3</repairerID>
-        <entryDate>2022-01-02</entryDate>
-    </computerForRepair>
-    <computerForRepair computerForRepairID="21">
-        <computer computerID="26">
-            <computerModel>Macbook Pro</computerModel>
-            <computerYear>2019</computerYear>
-            <oS>
-                <oSID>14</oSID>
-            </oS>
-            <computerProcessor>
-                <procesorID>3</procesorID>
-            </computerProcessor>
-            <computerDataStorageDevice>
-                <dataStorageTypeID>2</dataStorageTypeID>
-            </computerDataStorageDevice>
-            <computerDataStorageDeviceCapacity>1T</computerDataStorageDeviceCapacity>
-        </computer>
-        <clientID>4</clientID>
-        <repairerID>11</repairerID>
-        <entryDate>2022-01-02</entryDate>
-    </computerForRepair>
-</computersForRepair>
+<computerForRepair computerForRepairID="20">
+    <computer computerID="25">
+        <computerModel>Acer Swift 7</computerModel>
+        <computerYear>2016</computerYear>
+        <computerOS>
+            <oSID>5</oSID>
+        </computerOS>
+        <computerProcessor>
+            <processorID>1</processorID>
+        </computerProcessor>
+        <computerDataStorageDevice>
+            <dataStorageTypeID>2</dataStorageTypeID>
+        </computerDataStorageDevice>
+        <computerDataStorageDeviceCapacity>250GB</computerDataStorageDeviceCapacity>
+    </computer>
+    <entryDate>2022-01-02</entryDate>
+    <clientID>4</clientID>
+    <repairerID>3</repairerID>
+    <computerForRepairDiagnoses>
+        <computerForRepairDiagnosis computerForRepairDiagnosisID="33">
+            <computerForRepairID>25</computerForRepairID>
+            <problemSubTypeID>2</problemSubTypeID>
+        </computerForRepairDiagnosis>
+        <computerForRepairDiagnosis computerForRepairDiagnosisID="34">
+            <computerForRepairID>26</computerForRepairID>
+            <problemSubTypeID>15</problemSubTypeID>
+        </computerForRepairDiagnosis>
+    </computerForRepairDiagnoses>
+</computerForRepair>
 
 
 	

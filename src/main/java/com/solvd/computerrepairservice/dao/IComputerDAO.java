@@ -4,4 +4,6 @@ import com.solvd.computerrepairservice.model.Computer;
 
 public interface IComputerDAO extends IBaseDAO<Computer> {
 
+    Computer getComputerByComputerForRepairID(long computerForRepairID);
+
 }

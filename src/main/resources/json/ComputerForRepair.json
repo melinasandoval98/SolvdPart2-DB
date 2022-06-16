@@ -1,0 +1,38 @@
+{
+  "computerForRepairID": 33,
+  "computer": {
+    "computerID": 22,
+    "computerModel": "Acer Swift 7",
+    "computerYear": "2020",
+    "computerOS": {
+      "oSID": 4
+    },
+    "computerProcessor": {
+      "processorID": 1
+    },
+    "computerDataStorageDevice": {
+      "dataStorageTypeID": 2
+    },
+    "computerDataStorageDeviceCapacity": "450GB"
+  },
+  "entryDate": "01/01/2020",
+  "clientID": 2,
+  "repairerID": 3,
+  "computerForRepairDiagnosis": [
+    {
+      "computerForRepairDiagnosisID": 30,
+      "computerForRepairID": 22,
+      "problemSubTypeID": 1
+    },
+    {
+      "computerForRepairDiagnosisID": 38,
+      "computerForRepairID": 28,
+      "problemSubTypeID": 2
+    },
+    {
+      "computerForRepairDiagnosisID": 35,
+      "computerForRepairID": 10,
+      "problemSubTypeID": 1
+    }
+  ]
+}

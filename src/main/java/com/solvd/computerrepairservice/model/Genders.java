@@ -1,16 +1,22 @@
 package com.solvd.computerrepairservice.model;
 
 public enum Genders {
-	FEMALE(2), MALE(1);
+    FEMALE(2), MALE(1);
 
-	private int genderID;
+    private int genderID;
 
-	Genders(int genderID) {
-		this.genderID = genderID;
-	}
+    Genders(int genderID) {
+        this.genderID = genderID;
+    }
 
-	public int getGenderID() {
-		return genderID;
-	}
+    public int getGenderID() {
+        return genderID;
+    }
 
+    @Override
+    public String toString() {
+        return "Genders{" +
+                "genderID=" + genderID +
+                '}';
+    }
 }

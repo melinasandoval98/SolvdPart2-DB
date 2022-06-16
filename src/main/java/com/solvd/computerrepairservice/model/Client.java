@@ -1,12 +1,19 @@
 package com.solvd.computerrepairservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
+@XmlRootElement(name = "client")
+@XmlType(propOrder = {"clientID", "user", "computersForRepair"})
 public class Client {
+    @JsonProperty
     private long clientID;
+    @JsonProperty
     private User user;
-
-    List<ComputerForRepair> userComputersForRepair;
+    @JsonProperty
+    List<ComputerForRepair> computersForRepair;
 
     public Client() {
 
@@ -15,7 +22,7 @@ public class Client {
     public Client(long clientID, User user, List<ComputerForRepair> userComputersForRepair) {
         this.clientID = clientID;
         this.user = user;
-        this.userComputersForRepair = userComputersForRepair;
+        this.computersForRepair = userComputersForRepair;
     }
 
     public Client(long clientID) {
@@ -26,6 +33,7 @@ public class Client {
         return clientID;
     }
 
+    @XmlAttribute(name = "clientID")
     public void setClientID(long clientID) {
         this.clientID = clientID;
     }
@@ -34,15 +42,27 @@ public class Client {
         return user;
     }
 
+    @XmlElement(name = "user")
     public void setUser(User user) {
         this.user = user;
     }
 
-    public List<ComputerForRepair> getUserComputersForRepair() {
-        return userComputersForRepair;
+    public List<ComputerForRepair> getComputersForRepair() {
+        return computersForRepair;
     }
 
-    public void setUserComputersForRepair(List<ComputerForRepair> userComputersForRepair) {
-        this.userComputersForRepair = userComputersForRepair;
+    @XmlElementWrapper(name = "computersForRepair")
+    @XmlElement(name = "computerForRepair")
+    public void setComputersForRepair(List<ComputerForRepair> computersForRepair) {
+        this.computersForRepair = computersForRepair;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "clientID=" + clientID +
+                ", user=" + user +
+                ", userComputersForRepair=" + computersForRepair +
+                '}';
     }
 }

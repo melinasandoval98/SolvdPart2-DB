@@ -1,44 +1,49 @@
 package com.solvd.computerrepairservice.model;
 
 public class EmployeeWorkSchedule {
-	private long id;
-	private Employee employee;
-	private WorkSchedule workSchedule;
+    private long id;
+    private long employeeID;
+    private long workScheduleID;
 
-	public EmployeeWorkSchedule(long id, Employee employeeID, WorkSchedule workSchedule) {
-		super();
-		this.id = id;
-		this.employee = employeeID;
-		this.workSchedule = workSchedule;
-	}
+    public EmployeeWorkSchedule() {
+    }
 
-	public long getId() {
-		return id;
-	}
+    public EmployeeWorkSchedule(long id, long employeeID, long workScheduleID) {
+        this.id = id;
+        this.employeeID = employeeID;
+        this.workScheduleID = workScheduleID;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public Employee getEmployee() {
-		return employee;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+    public long getEmployeeID() {
+        return employeeID;
+    }
 
-	public WorkSchedule getWorkSchedule() {
-		return workSchedule;
-	}
+    public void setEmployeeID(long employeeID) {
+        this.employeeID = employeeID;
+    }
 
-	public void setWorkSchedule(WorkSchedule workSchedule) {
-		this.workSchedule = workSchedule;
-	}
+    public long getWorkScheduleID() {
+        return workScheduleID;
+    }
 
-	@Override
-	public String toString() {
-		return "EmployeeWorkSchedule [id=" + id + ", employeeID=" + employee + ", workSchedule=" + workSchedule + "]";
-	}
+    public void setWorkScheduleID(long workScheduleID) {
+        this.workScheduleID = workScheduleID;
+    }
 
+    @Override
+    public String toString() {
+        return "EmployeeWorkSchedule{" +
+                "id=" + id +
+                ", employeeID=" + employeeID +
+                ", workScheduleID=" + workScheduleID +
+                '}';
+    }
 }

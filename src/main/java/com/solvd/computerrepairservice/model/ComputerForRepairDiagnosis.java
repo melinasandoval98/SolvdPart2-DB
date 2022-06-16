@@ -1,12 +1,21 @@
 package com.solvd.computerrepairservice.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "computerForRepairDiagnosis")
+@XmlType(propOrder = {"computerForRepairDiagnosisID", "computerForRepairID", "problemSubTypeID",})
 public class ComputerForRepairDiagnosis {
     private long computerForRepairDiagnosisID;
     private long computerForRepairID;
     private long problemSubTypeID;
+
+
+    public ComputerForRepairDiagnosis() {
+    }
 
     public ComputerForRepairDiagnosis(long computerForRepairDiagnosisID, long computerForRepairID, long problemSubTypeID) {
         this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
@@ -18,6 +27,7 @@ public class ComputerForRepairDiagnosis {
         return computerForRepairDiagnosisID;
     }
 
+    @XmlAttribute(name = "computerForRepairDiagnosisID")
     public void setComputerForRepairDiagnosisID(long computerForRepairDiagnosisID) {
         this.computerForRepairDiagnosisID = computerForRepairDiagnosisID;
     }
@@ -26,6 +36,7 @@ public class ComputerForRepairDiagnosis {
         return computerForRepairID;
     }
 
+    @XmlElement(name = "computerForRepairID")
     public void setComputerForRepairID(long computerForRepairID) {
         this.computerForRepairID = computerForRepairID;
     }
@@ -34,6 +45,7 @@ public class ComputerForRepairDiagnosis {
         return problemSubTypeID;
     }
 
+    @XmlElement(name = "problemSubTypeID")
     public void setProblemSubTypeID(long problemSubTypeID) {
         this.problemSubTypeID = problemSubTypeID;
     }
@@ -46,4 +58,5 @@ public class ComputerForRepairDiagnosis {
                 ", problemSubTypeID=" + problemSubTypeID +
                 '}';
     }
+
 }

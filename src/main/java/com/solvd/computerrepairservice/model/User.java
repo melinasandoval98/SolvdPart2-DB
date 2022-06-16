@@ -83,8 +83,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [userID=" + userID + ", userName=" + userName + ", userAge=" + ", userEMail=" + userEMail
-                + ", userPhoneNumber=" + userPhoneNumber + ", userAddress=" + userAddress + ", userGender=";
+        return "User{" +
+                "userID=" + userID +
+                ", userName='" + userName + '\'' +
+                ", userEMail='" + userEMail + '\'' +
+                ", userPhoneNumber=" + userPhoneNumber +
+                ", userAddress=" + userAddress +
+                '}';
     }
-
 }

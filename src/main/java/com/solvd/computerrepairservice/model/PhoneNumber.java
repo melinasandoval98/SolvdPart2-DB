@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "userPhoneNumber")
-@XmlType(propOrder = {"phoneNumberID", "countryCode", "phoneNumber"})
+@XmlType(propOrder = {"phoneNumberID", "countryCode", "phoneNumberBody"})
 public class PhoneNumber {
     private long phoneNumberID;
     private int countryCode;

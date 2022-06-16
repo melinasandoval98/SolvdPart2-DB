@@ -1,26 +1,22 @@
 package com.solvd.computerrepairservice.model;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import com.solvd.computerrepairservice.jaxb.DateAdapter;
 
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @XmlRootElement(name = "computerForRepair")
-@XmlType(propOrder = {"computerForRepairID", "computer", "clientID", "repairerID", "entryDate"})
+@XmlType(propOrder = {"computerForRepairID", "computer", "entryDate", "clientID", "repairerID", "computerForRepairDiagnoses"})
 public class ComputerForRepair {
     private long computerForRepairID;
     private Computer computer;
     private Date entryDate;
     private long clientID;
     private long repairerID;
-    private List<ComputerForRepairDiagnosis> computerForRepairDiagnosis = new ArrayList<>();
+    private List<ComputerForRepairDiagnosis> computerForRepairDiagnoses = new ArrayList<>();
 
     public ComputerForRepair() {
 
@@ -32,7 +28,7 @@ public class ComputerForRepair {
         this.entryDate = entryDate;
         this.clientID = clientID;
         this.repairerID = repairerID;
-        this.computerForRepairDiagnosis = computerForRepairDiagnosis;
+        this.computerForRepairDiagnoses = computerForRepairDiagnosis;
     }
 
     public ComputerForRepair(long computerForRepairID, Date entryDate, long clientID, long repairerID) {
@@ -46,6 +42,7 @@ public class ComputerForRepair {
         return computerForRepairID;
     }
 
+    @XmlAttribute(name = "computerForRepairID")
     public void setComputerForRepairID(long computerForRepairID) {
         this.computerForRepairID = computerForRepairID;
     }
@@ -54,6 +51,7 @@ public class ComputerForRepair {
         return computer;
     }
 
+    @XmlElement(name = "computer")
     public void setComputer(Computer computer) {
         this.computer = computer;
     }
@@ -62,6 +60,8 @@ public class ComputerForRepair {
         return entryDate;
     }
 
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    @XmlElement(name = "entryDate", required = true)
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
     }
@@ -70,6 +70,7 @@ public class ComputerForRepair {
         return clientID;
     }
 
+    @XmlElement(name = "clientID")
     public void setClientID(long clientID) {
         this.clientID = clientID;
     }
@@ -78,15 +79,30 @@ public class ComputerForRepair {
         return repairerID;
     }
 
+    @XmlElement(name = "repairerID")
     public void setRepairerID(long repairerID) {
         this.repairerID = repairerID;
     }
 
-    public List<ComputerForRepairDiagnosis> getComputerForRepairDiagnosis() {
-        return computerForRepairDiagnosis;
+    public List<ComputerForRepairDiagnosis> getComputerForRepairDiagnoses() {
+        return computerForRepairDiagnoses;
     }
 
-    public void setComputerForRepairDiagnosis(List<ComputerForRepairDiagnosis> computerForRepairDiagnosis) {
-        this.computerForRepairDiagnosis = computerForRepairDiagnosis;
+    @XmlElementWrapper(name = "computerForRepairDiagnoses")
+    @XmlElement(name = "computerForRepairDiagnosis")
+    public void setComputerForRepairDiagnoses(List<ComputerForRepairDiagnosis> computerForRepairDiagnoses) {
+        this.computerForRepairDiagnoses = computerForRepairDiagnoses;
+    }
+
+    @Override
+    public String toString() {
+        return "ComputerForRepair{" +
+                "computerForRepairID=" + computerForRepairID +
+                ", computer=" + computer +
+                ", entryDate=" + entryDate +
+                ", clientID=" + clientID +
+                ", repairerID=" + repairerID +
+                ", computerForRepairDiagnoses=" + computerForRepairDiagnoses +
+                '}';
     }
 }
